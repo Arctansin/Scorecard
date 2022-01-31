@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 PLOT_LY | Financial Scorecard</title>
+  <meta name="description" content="Chapter 5 PLOT_LY | Financial Scorecard" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 PLOT_LY | Financial Scorecard" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 PLOT_LY | Financial Scorecard" />
+  
+  
+  
+
+<meta name="author" content="Mingming Li" />
+
+
+<meta name="date" content="2022-01-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="build-final-scorecard-model.html"/>
+
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Scorecard</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview</a></li>
+<li class="chapter" data-level="2" data-path="initial-score-card.html"><a href="initial-score-card.html"><i class="fa fa-check"></i><b>2</b> Initial Score Card</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="initial-score-card.html"><a href="initial-score-card.html#exploratory-data-analysis"><i class="fa fa-check"></i><b>2.1</b> Exploratory Data Analysis</a></li>
+<li class="chapter" data-level="2.2" data-path="initial-score-card.html"><a href="initial-score-card.html#variables-selection"><i class="fa fa-check"></i><b>2.2</b> Variables Selection</a></li>
+<li class="chapter" data-level="2.3" data-path="initial-score-card.html"><a href="initial-score-card.html#standardize-continuous-variables"><i class="fa fa-check"></i><b>2.3</b> Standardize Continuous Variables</a></li>
+<li class="chapter" data-level="2.4" data-path="initial-score-card.html"><a href="initial-score-card.html#standardize-categorical-variables"><i class="fa fa-check"></i><b>2.4</b> Standardize Categorical Variables</a></li>
+<li class="chapter" data-level="2.5" data-path="initial-score-card.html"><a href="initial-score-card.html#initial-logistic-regression-model-and-model-selection"><i class="fa fa-check"></i><b>2.5</b> Initial Logistic Regression Model and Model Selection</a></li>
+<li class="chapter" data-level="2.6" data-path="initial-score-card.html"><a href="initial-score-card.html#evaluate-the-initial-model---training-data"><i class="fa fa-check"></i><b>2.6</b> Evaluate the Initial Model - Training Data</a></li>
+<li class="chapter" data-level="2.7" data-path="initial-score-card.html"><a href="initial-score-card.html#evaluate-the-initial-model---testing-data"><i class="fa fa-check"></i><b>2.7</b> Evaluate the Initial Model - Testing Data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="reject-inference.html"><a href="reject-inference.html"><i class="fa fa-check"></i><b>3</b> Reject Inference</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="reject-inference.html"><a href="reject-inference.html#data-cleaning"><i class="fa fa-check"></i><b>3.1</b> Data Cleaning</a></li>
+<li class="chapter" data-level="3.2" data-path="reject-inference.html"><a href="reject-inference.html#predicted-scores"><i class="fa fa-check"></i><b>3.2</b> Predicted Scores</a></li>
+<li class="chapter" data-level="3.3" data-path="reject-inference.html"><a href="reject-inference.html#predicted-default-probability"><i class="fa fa-check"></i><b>3.3</b> Predicted Default Probability</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html"><i class="fa fa-check"></i><b>4</b> Build Final Scorecard Model</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html#build-the-logistic-regression-and-variable-selection"><i class="fa fa-check"></i><b>4.1</b> Build the logistic regression and variable selection</a></li>
+<li class="chapter" data-level="4.2" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html#evaluate-the-initial-model"><i class="fa fa-check"></i><b>4.2</b> Evaluate the Initial Model</a></li>
+<li class="chapter" data-level="4.3" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html#final-scorecard"><i class="fa fa-check"></i><b>4.3</b> Final Scorecard</a></li>
+<li class="chapter" data-level="4.4" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html#score-distribution"><i class="fa fa-check"></i><b>4.4</b> Score distribution</a></li>
+<li class="chapter" data-level="4.5" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html#plotting-default-acceptance-profit-by-score"><i class="fa fa-check"></i><b>4.5</b> Plotting Default, Acceptance, &amp; Profit By Score</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="plot_ly.html"><a href="plot_ly.html"><i class="fa fa-check"></i><b>5</b> PLOT_LY</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Financial Scorecard</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="plot_ly" class="section level1" number="5">
+<h1><span class="header-section-number">Chapter 5</span> PLOT_LY</h1>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="plot_ly.html#cb84-1" aria-hidden="true" tabindex="-1"></a>newdata<span class="ot">&lt;-</span>plot_data[plot_data<span class="sc">$</span>score<span class="sc">&gt;=</span><span class="dv">400</span><span class="sc">&amp;</span>plot_data<span class="sc">$</span>score<span class="sc">&lt;=</span><span class="dv">600</span>,]</span>
+<span id="cb84-2"><a href="plot_ly.html#cb84-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-3"><a href="plot_ly.html#cb84-3" aria-hidden="true" tabindex="-1"></a>score<span class="ot">&lt;-</span>newdata<span class="sc">$</span>score</span>
+<span id="cb84-4"><a href="plot_ly.html#cb84-4" aria-hidden="true" tabindex="-1"></a>def<span class="ot">&lt;-</span>newdata<span class="sc">$</span>def</span>
+<span id="cb84-5"><a href="plot_ly.html#cb84-5" aria-hidden="true" tabindex="-1"></a>acc<span class="ot">&lt;-</span>newdata<span class="sc">$</span>acc</span>
+<span id="cb84-6"><a href="plot_ly.html#cb84-6" aria-hidden="true" tabindex="-1"></a>prof<span class="ot">&lt;-</span>newdata<span class="sc">$</span>prof</span>
+<span id="cb84-7"><a href="plot_ly.html#cb84-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-8"><a href="plot_ly.html#cb84-8" aria-hidden="true" tabindex="-1"></a>ay1 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb84-9"><a href="plot_ly.html#cb84-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">&quot;Default Rate (%)&quot;</span>,</span>
+<span id="cb84-10"><a href="plot_ly.html#cb84-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb84-11"><a href="plot_ly.html#cb84-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb84-12"><a href="plot_ly.html#cb84-12" aria-hidden="true" tabindex="-1"></a>ay2 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb84-13"><a href="plot_ly.html#cb84-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">tickfont =</span> <span class="fu">list</span>(),</span>
+<span id="cb84-14"><a href="plot_ly.html#cb84-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>),</span>
+<span id="cb84-15"><a href="plot_ly.html#cb84-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">overlaying =</span> <span class="st">&quot;y&quot;</span>,</span>
+<span id="cb84-16"><a href="plot_ly.html#cb84-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">side =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb84-17"><a href="plot_ly.html#cb84-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">&quot;Acceptance Rate (%)&quot;</span></span>
+<span id="cb84-18"><a href="plot_ly.html#cb84-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb84-19"><a href="plot_ly.html#cb84-19" aria-hidden="true" tabindex="-1"></a>fig <span class="ot">&lt;-</span> <span class="fu">plot_ly</span>()</span>
+<span id="cb84-20"><a href="plot_ly.html#cb84-20" aria-hidden="true" tabindex="-1"></a>fig <span class="ot">&lt;-</span> fig <span class="sc">%&gt;%</span> <span class="fu">add_lines</span>(<span class="at">x =</span> <span class="sc">~</span>score, <span class="at">y =</span> <span class="sc">~</span>def, <span class="at">name =</span> <span class="st">&quot;Default Rate (%)&quot;</span>)</span>
+<span id="cb84-21"><a href="plot_ly.html#cb84-21" aria-hidden="true" tabindex="-1"></a>fig <span class="ot">&lt;-</span> fig <span class="sc">%&gt;%</span> <span class="fu">add_lines</span>(<span class="at">x =</span> <span class="sc">~</span>score, <span class="at">y =</span> <span class="sc">~</span>acc, <span class="at">name =</span> <span class="st">&quot;Acceptance Rate (%)&quot;</span>, <span class="at">yaxis =</span> <span class="st">&quot;y2&quot;</span>)</span>
+<span id="cb84-22"><a href="plot_ly.html#cb84-22" aria-hidden="true" tabindex="-1"></a>fig <span class="ot">&lt;-</span> fig <span class="sc">%&gt;%</span> <span class="fu">layout</span>(</span>
+<span id="cb84-23"><a href="plot_ly.html#cb84-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">&quot;Default Rate by Acceptance Across Score&quot;</span>, <span class="at">yaxis =</span> ay1, <span class="at">yaxis2 =</span> ay2,</span>
+<span id="cb84-24"><a href="plot_ly.html#cb84-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title=</span><span class="st">&quot;Scorecard Value&quot;</span>),</span>
+<span id="cb84-25"><a href="plot_ly.html#cb84-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="fl">1.2</span>, <span class="at">y =</span> <span class="fl">0.8</span>)</span>
+<span id="cb84-26"><a href="plot_ly.html#cb84-26" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb84-27"><a href="plot_ly.html#cb84-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-28"><a href="plot_ly.html#cb84-28" aria-hidden="true" tabindex="-1"></a>fig</span></code></pre></div>
+<div id="htmlwidget-ff63ad930df6953a7c48" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ff63ad930df6953a7c48">{"x":{"visdat":{"d4222b5c9b87":["function () ","plotlyVisDat"]},"cur_data":"d4222b5c9b87","attrs":{"d4222b5c9b87":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":"Default Rate (%)","inherit":true},"d4222b5c9b87.1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":"Acceptance Rate (%)","yaxis":"y2","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Default Rate by Acceptance Across Score","yaxis":{"domain":[0,1],"automargin":true,"title":"Default Rate (%)","range":[0,10]},"yaxis2":{"tickfont":[],"range":[0,100],"overlaying":"y","side":"right","title":"Acceptance Rate (%)"},"xaxis":{"domain":[0,1],"automargin":true,"title":"Scorecard Value"},"legend":{"x":1.2,"y":0.8},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,429,430,431,432,433,434,435,436,437,438,439,440,441,442,443,444,445,446,447,448,449,450,451,452,453,454,455,456,457,458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,479,480,481,482,483,484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516,517,518,519,520,521,522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,559,560,561,562,563,564,565,566,567,568,569,570,571,572,573,574,575,576,577,578,579,580,581,582,583,584],"y":[2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.72971818027723,2.56338115709328,2.56338115709328,2.56338115709328,2.56338115709328,2.56338115709328,2.56338115709328,2.5603126674316,2.5603126674316,2.5603126674316,2.5603126674316,2.55877835012458,2.55877835012458,2.55877835012458,2.318418514433,2.318418514433,2.31684689451136,2.31684689451136,2.31684689451136,2.31527522401665,2.30436643720369,2.22114500370276,2.22114500370276,2.21959274345512,2.21959274345512,2.21959274345512,2.21959274345512,2.21959274345512,2.21959274345512,2.21800738040721,2.21800738040721,2.21800738040721,2.21800738040721,1.58868368049785,1.58868368049785,1.58868368049785,1.58868368049785,1.58868368049785,1.51371450920947,1.51316052299466,1.51316052299466,1.51316052299466,1.51316052299466,1.50498010941855,1.4793346920808,1.44701076588405,1.44701076588405,1.44701076588405,1.43962123587569,1.43962123587569,1.43962123587569,1.36558156690407,1.3277882816652,0.950139441232522,0.950139441232522,0.943736906370865,0.941602544143352,0.906033917551556,0.90692372615511,0.903479798168957,0.904368883579091,0.904368883579091,0.904368883579091,0.902198884359718,0.90250076494197,0.79092377873594,0.79092377873594,0.79092377873594,0.79092377873594,0.79092377873594,0.75320271747832,0.725539974072205,0.725539974072205,0.725539974072205,0.725539974072205,0.727468386120751,0.633183757711764,0.633230644532251,0.633230644532251,0.636198578684006,0.62379740331067,0.614706157397457,0.59089246010526,0.59089246010526,0.59089246010526,0.59089246010526,0.588369129179505,0.588369129179505,0.588369129179505,0.592506172703626,0.606521269158868,0.601744459756734,0.601744459756734,0.601744459756734,0.609909866189012,0.609909866189012,0.492895797438257,0.492895797438257,0.492895797438257,0.492895797438257,0.492895797438257,0.492895797438257,0.492895797438257,0.494581220212789,0.496278208907242,0.496278208907242,0.496278208907242,0.496278208907242,0.37483253970846,0.37483253970846,0.355199123448941,0.362207293079017,0.362207293079017,0.334425014576942,0.356348257791671,0.356348257791671,0.356348257791671,0.356348257791671,0.356348257791671,0.356348257791671,0.356348257791671,0.356348257791671,0.356348257791671,0.339640065651788,0.322622330234669,0.277379408658016,0.277379408658016,0.277379408658016,0.28088067832249,0.28088067832249,0.28088067832249,0.28088067832249,0.28088067832249,0.295816666933787,0.222026698194916,0.222026698194916,0.222026698194916,0.222026698194916,0.222026698194916,0.222026698194916,0.239985660299555,0.239985660299555,0.239985660299555,0.239985660299555,0.239985660299555,0.246635487257803,0.246635487257803,0.246635487257803,0.208178917856337,0.208178917856337,0.208178917856337,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"type":"scatter","mode":"lines","name":"Default Rate (%)","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,429,430,431,432,433,434,435,436,437,438,439,440,441,442,443,444,445,446,447,448,449,450,451,452,453,454,455,456,457,458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,479,480,481,482,483,484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516,517,518,519,520,521,522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,559,560,561,562,563,564,565,566,567,568,569,570,571,572,573,574,575,576,577,578,579,580,581,582,583,584],"y":[99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,98.8848531153855,98.8848531153855,98.8848531153855,98.8848531153855,98.8848531153855,98.8848531153855,98.8817391157639,98.8817391157639,98.8817391157639,98.8817391157639,98.8801821159531,98.8801821159531,98.8801821159531,96.7744483315879,96.7744483315879,96.7728913317771,96.7728913317771,96.7728913317771,96.7713343319663,96.6889073404346,96.1056904004695,96.1056904004695,96.0326054078026,96.0326054078026,96.0326054078026,96.0326054078026,96.0326054078026,96.0326054078026,96.0310484079918,96.0310484079918,96.0310484079918,96.0310484079918,86.244974397476,86.244974397476,86.244974397476,86.244974397476,86.244974397476,85.6819984550513,85.6104704621952,85.6104704621952,85.6104704621952,85.6104704621952,85.2481594984822,84.5157525720022,83.068065716961,83.068065716961,83.068065716961,83.0618377177179,83.0618377177179,83.0618377177179,81.8644518384528,80.9112329341613,72.2669628019248,72.2669628019248,72.2622918024924,72.2607348026816,71.3168578972549,71.2468869042096,71.1738019115427,71.1038309184973,71.1038309184973,71.1038309184973,71.1022739186865,70.0433670241419,66.9318523356805,66.9318523356805,66.9318523356805,66.9318523356805,66.9318523356805,54.7800665460755,52.7912957444014,52.7912957444014,52.7912957444014,52.7912957444014,52.6513537583107,46.4751283741524,44.9963955213358,44.9963955213358,44.7864825421999,44.4288425779193,44.0727596134495,41.1059519089517,41.1059519089517,41.1059519089517,41.1059519089517,40.7529829441035,40.7529829441035,40.7529829441035,39.4173060769992,29.7783420362231,28.7209921414893,28.7209921414893,28.7209921414893,27.3153442813397,27.3153442813397,20.5327349569355,20.5327349569355,20.5327349569355,20.5327349569355,20.5327349569355,20.5327349569355,20.5327349569355,20.4627639638901,20.3927929708448,20.3927929708448,20.3927929708448,20.3927929708448,14.5384905537593,14.5384905537593,14.4654055610924,14.1855215889111,14.1855215889111,8.84592812011555,7.86477721767026,7.86477721767026,7.86477721767026,7.86477721767026,7.86477721767026,7.86477721767026,7.86477721767026,7.86477721767026,7.86477721767026,7.79324922481414,7.72172123195802,6.17457438590698,6.17457438590698,6.17457438590698,5.5432784486883,5.5432784486883,5.5432784486883,5.5432784486883,5.5432784486883,5.26339447650702,2.80506772105601,2.80506772105601,2.80506772105601,2.80506772105601,2.80506772105601,2.80506772105601,2.59515474192005,2.59515474192005,2.59515474192005,2.59515474192005,2.59515474192005,2.52518374887473,2.52518374887473,2.52518374887473,2.24374277688265,2.24374277688265,2.24374277688265,0.209912979135962,0.209912979135962,0.209912979135962,0.209912979135962,0.209912979135962,0.209912979135962,0.209912979135962,0.139941986090641,0.139941986090641,0.139941986090641,0.139941986090641,0.139941986090641,0.139941986090641,0.139941986090641],"type":"scatter","mode":"lines","name":"Acceptance Rate (%)","yaxis":"y2","marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"line":{"color":"rgba(255,127,14,1)"},"xaxis":"x","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="plot_ly.html#cb85-1" aria-hidden="true" tabindex="-1"></a>ay1 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb85-2"><a href="plot_ly.html#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">&quot;Profit ($)&quot;</span>,</span>
+<span id="cb85-3"><a href="plot_ly.html#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">400</span><span class="sc">:</span><span class="dv">600</span>),</span>
+<span id="cb85-4"><a href="plot_ly.html#cb85-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">showline =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb85-5"><a href="plot_ly.html#cb85-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">showgrid =</span> <span class="cn">FALSE</span></span>
+<span id="cb85-6"><a href="plot_ly.html#cb85-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb85-7"><a href="plot_ly.html#cb85-7" aria-hidden="true" tabindex="-1"></a>ay2 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb85-8"><a href="plot_ly.html#cb85-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">tickfont =</span> <span class="fu">list</span>(),</span>
+<span id="cb85-9"><a href="plot_ly.html#cb85-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>),</span>
+<span id="cb85-10"><a href="plot_ly.html#cb85-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">overlaying =</span> <span class="st">&quot;y&quot;</span>,</span>
+<span id="cb85-11"><a href="plot_ly.html#cb85-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">side =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb85-12"><a href="plot_ly.html#cb85-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">400</span><span class="sc">:</span><span class="dv">600</span>),</span>
+<span id="cb85-13"><a href="plot_ly.html#cb85-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">&quot;Acceptance Rate (%)&quot;</span></span>
+<span id="cb85-14"><a href="plot_ly.html#cb85-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb85-15"><a href="plot_ly.html#cb85-15" aria-hidden="true" tabindex="-1"></a>fig <span class="ot">&lt;-</span> <span class="fu">plot_ly</span>()</span>
+<span id="cb85-16"><a href="plot_ly.html#cb85-16" aria-hidden="true" tabindex="-1"></a>fig <span class="ot">&lt;-</span> fig <span class="sc">%&gt;%</span> <span class="fu">add_lines</span>(<span class="at">x =</span> <span class="sc">~</span>score, <span class="at">y =</span> <span class="sc">~</span>prof, <span class="at">name =</span> <span class="st">&quot;Profit ($)&quot;</span>)</span>
+<span id="cb85-17"><a href="plot_ly.html#cb85-17" aria-hidden="true" tabindex="-1"></a>fig <span class="ot">&lt;-</span> fig <span class="sc">%&gt;%</span> <span class="fu">add_lines</span>(<span class="at">x =</span> <span class="sc">~</span>score, <span class="at">y =</span> <span class="sc">~</span>acc, <span class="at">name =</span> <span class="st">&quot;Acceptance Rate (%)&quot;</span>, <span class="at">yaxis =</span> <span class="st">&quot;y2&quot;</span>)</span>
+<span id="cb85-18"><a href="plot_ly.html#cb85-18" aria-hidden="true" tabindex="-1"></a>fig <span class="ot">&lt;-</span> fig <span class="sc">%&gt;%</span> <span class="fu">layout</span>(</span>
+<span id="cb85-19"><a href="plot_ly.html#cb85-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">&quot;Profit by Acceptance Across Score&quot;</span>, <span class="at">yaxis =</span> ay1, <span class="at">yaxis2 =</span> ay2,</span>
+<span id="cb85-20"><a href="plot_ly.html#cb85-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title=</span><span class="st">&quot;Scorecard Value&quot;</span>),</span>
+<span id="cb85-21"><a href="plot_ly.html#cb85-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="fl">1.2</span>, <span class="at">y =</span> <span class="fl">0.8</span>)</span>
+<span id="cb85-22"><a href="plot_ly.html#cb85-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb85-23"><a href="plot_ly.html#cb85-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-24"><a href="plot_ly.html#cb85-24" aria-hidden="true" tabindex="-1"></a>fig</span></code></pre></div>
+<div id="htmlwidget-5f61b45e26ef623162e5" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5f61b45e26ef623162e5">{"x":{"visdat":{"d4224ce6d24e":["function () ","plotlyVisDat"]},"cur_data":"d4224ce6d24e","attrs":{"d4224ce6d24e":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":"Profit ($)","inherit":true},"d4224ce6d24e.1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":"Acceptance Rate (%)","yaxis":"y2","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Profit by Acceptance Across Score","yaxis":{"domain":[0,1],"automargin":true,"title":"Profit ($)","xlim":[400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,429,430,431,432,433,434,435,436,437,438,439,440,441,442,443,444,445,446,447,448,449,450,451,452,453,454,455,456,457,458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,479,480,481,482,483,484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516,517,518,519,520,521,522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,559,560,561,562,563,564,565,566,567,568,569,570,571,572,573,574,575,576,577,578,579,580,581,582,583,584,585,586,587,588,589,590,591,592,593,594,595,596,597,598,599,600],"showline":false,"showgrid":false},"yaxis2":{"tickfont":[],"range":[0,100],"overlaying":"y","side":"right","xlim":[400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,429,430,431,432,433,434,435,436,437,438,439,440,441,442,443,444,445,446,447,448,449,450,451,452,453,454,455,456,457,458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,479,480,481,482,483,484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516,517,518,519,520,521,522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,559,560,561,562,563,564,565,566,567,568,569,570,571,572,573,574,575,576,577,578,579,580,581,582,583,584,585,586,587,588,589,590,591,592,593,594,595,596,597,598,599,600],"title":"Acceptance Rate (%)"},"xaxis":{"domain":[0,1],"automargin":true,"title":"Scorecard Value"},"legend":{"x":1.2,"y":0.8},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,429,430,431,432,433,434,435,436,437,438,439,440,441,442,443,444,445,446,447,448,449,450,451,452,453,454,455,456,457,458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,479,480,481,482,483,484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516,517,518,519,520,521,522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,559,560,561,562,563,564,565,566,567,568,569,570,571,572,573,574,575,576,577,578,579,580,581,582,583,584],"y":[33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,33776167.1826625,39107736.8421053,39107736.8421053,39107736.8421053,39107736.8421053,39107736.8421053,39107736.8421053,39211736.8421053,39211736.8421053,39211736.8421053,39211736.8421053,39263736.8421053,39263736.8421053,39263736.8421053,46494876.1609907,46494876.1609907,46546876.1609907,46546876.1609907,46546876.1609907,46598876.1609907,46924996.9040247,49415842.1052631,49415842.1052631,49429962.8482972,49429962.8482972,49429962.8482972,49429962.8482972,49429962.8482972,49429962.8482972,49481962.8482972,49481962.8482972,49481962.8482972,49481962.8482972,63263538.6996904,63263538.6996904,63263538.6996904,63263538.6996904,63263538.6996904,65078383.9009288,65040504.6439628,65040504.6439628,65040504.6439628,65040504.6439628,65007108.3591331,65200315.7894737,65014730.6501548,65014730.6501548,65014730.6501548,65222730.6501548,65222730.6501548,65222730.6501548,66384662.5386997,66672232.1981424,69014479.876161,69014479.876161,69170479.876161,69222479.876161,69198049.5356037,69108170.2786378,69122291.0216718,69032411.7647059,69032411.7647059,69032411.7647059,69084411.7647059,68048222.9102167,67615414.8606811,67615414.8606811,67615414.8606811,67615414.8606811,67615414.8606811,56056182.6625387,54527563.4674923,54527563.4674923,54527563.4674923,54527563.4674923,54347804.9535604,49492309.5975232,47916845.2012384,47916845.2012384,47647207.4303406,47457811.1455108,47216414.8606811,44377486.0681114,44377486.0681114,44377486.0681114,44377486.0681114,44032089.7832817,44032089.7832817,44032089.7832817,42532383.9009288,31986925.6965944,30898736.8421053,30898736.8421053,30898736.8421053,29309151.7027864,29309151.7027864,22864743.0340557,22864743.0340557,22864743.0340557,22864743.0340557,22864743.0340557,22864743.0340557,22864743.0340557,22774863.7770898,22684984.5201238,22684984.5201238,22684984.5201238,22684984.5201238,16785006.1919505,16785006.1919505,16799126.9349845,16439609.9071207,16439609.9071207,10336786.377709,9130476.78018576,9130476.78018576,9130476.78018576,9130476.78018576,9130476.78018576,9130476.78018576,9130476.78018576,9130476.78018576,9130476.78018576,9092597.52321981,9054718.26625387,7337374.61300309,7337374.61300309,7337374.61300309,6580461.3003096,6580461.3003096,6580461.3003096,6580461.3003096,6580461.3003096,6220944.27244582,3387170.27863777,3387170.27863777,3387170.27863777,3387170.27863777,3387170.27863777,3387170.27863777,3117532.50773994,3117532.50773994,3117532.50773994,3117532.50773994,3117532.50773994,3027653.25077399,3027653.25077399,3027653.25077399,2720136.22291022,2720136.22291022,2720136.22291022,269637.770897833,269637.770897833,269637.770897833,269637.770897833,269637.770897833,269637.770897833,269637.770897833,179758.513931889,179758.513931889,179758.513931889,179758.513931889,179758.513931889,179758.513931889,179758.513931889],"type":"scatter","mode":"lines","name":"Profit ($)","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,429,430,431,432,433,434,435,436,437,438,439,440,441,442,443,444,445,446,447,448,449,450,451,452,453,454,455,456,457,458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,479,480,481,482,483,484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516,517,518,519,520,521,522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,559,560,561,562,563,564,565,566,567,568,569,570,571,572,573,574,575,576,577,578,579,580,581,582,583,584],"y":[99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,99.9891010013244,98.8848531153855,98.8848531153855,98.8848531153855,98.8848531153855,98.8848531153855,98.8848531153855,98.8817391157639,98.8817391157639,98.8817391157639,98.8817391157639,98.8801821159531,98.8801821159531,98.8801821159531,96.7744483315879,96.7744483315879,96.7728913317771,96.7728913317771,96.7728913317771,96.7713343319663,96.6889073404346,96.1056904004695,96.1056904004695,96.0326054078026,96.0326054078026,96.0326054078026,96.0326054078026,96.0326054078026,96.0326054078026,96.0310484079918,96.0310484079918,96.0310484079918,96.0310484079918,86.244974397476,86.244974397476,86.244974397476,86.244974397476,86.244974397476,85.6819984550513,85.6104704621952,85.6104704621952,85.6104704621952,85.6104704621952,85.2481594984822,84.5157525720022,83.068065716961,83.068065716961,83.068065716961,83.0618377177179,83.0618377177179,83.0618377177179,81.8644518384528,80.9112329341613,72.2669628019248,72.2669628019248,72.2622918024924,72.2607348026816,71.3168578972549,71.2468869042096,71.1738019115427,71.1038309184973,71.1038309184973,71.1038309184973,71.1022739186865,70.0433670241419,66.9318523356805,66.9318523356805,66.9318523356805,66.9318523356805,66.9318523356805,54.7800665460755,52.7912957444014,52.7912957444014,52.7912957444014,52.7912957444014,52.6513537583107,46.4751283741524,44.9963955213358,44.9963955213358,44.7864825421999,44.4288425779193,44.0727596134495,41.1059519089517,41.1059519089517,41.1059519089517,41.1059519089517,40.7529829441035,40.7529829441035,40.7529829441035,39.4173060769992,29.7783420362231,28.7209921414893,28.7209921414893,28.7209921414893,27.3153442813397,27.3153442813397,20.5327349569355,20.5327349569355,20.5327349569355,20.5327349569355,20.5327349569355,20.5327349569355,20.5327349569355,20.4627639638901,20.3927929708448,20.3927929708448,20.3927929708448,20.3927929708448,14.5384905537593,14.5384905537593,14.4654055610924,14.1855215889111,14.1855215889111,8.84592812011555,7.86477721767026,7.86477721767026,7.86477721767026,7.86477721767026,7.86477721767026,7.86477721767026,7.86477721767026,7.86477721767026,7.86477721767026,7.79324922481414,7.72172123195802,6.17457438590698,6.17457438590698,6.17457438590698,5.5432784486883,5.5432784486883,5.5432784486883,5.5432784486883,5.5432784486883,5.26339447650702,2.80506772105601,2.80506772105601,2.80506772105601,2.80506772105601,2.80506772105601,2.80506772105601,2.59515474192005,2.59515474192005,2.59515474192005,2.59515474192005,2.59515474192005,2.52518374887473,2.52518374887473,2.52518374887473,2.24374277688265,2.24374277688265,2.24374277688265,0.209912979135962,0.209912979135962,0.209912979135962,0.209912979135962,0.209912979135962,0.209912979135962,0.209912979135962,0.139941986090641,0.139941986090641,0.139941986090641,0.139941986090641,0.139941986090641,0.139941986090641,0.139941986090641],"type":"scatter","mode":"lines","name":"Acceptance Rate (%)","yaxis":"y2","marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"line":{"color":"rgba(255,127,14,1)"},"xaxis":"x","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="build-final-scorecard-model.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Arctansin/Scorecard/edit/master/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/Arctansin/Scorecard/blob/master/index.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

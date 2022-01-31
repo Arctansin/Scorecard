@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Reject Inference | Financial Scorecard</title>
+  <meta name="description" content="Chapter 3 Reject Inference | Financial Scorecard" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Reject Inference | Financial Scorecard" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Reject Inference | Financial Scorecard" />
+  
+  
+  
+
+<meta name="author" content="Mingming Li" />
+
+
+<meta name="date" content="2022-01-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="initial-score-card.html"/>
+<link rel="next" href="build-final-scorecard-model.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Scorecard</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview</a></li>
+<li class="chapter" data-level="2" data-path="initial-score-card.html"><a href="initial-score-card.html"><i class="fa fa-check"></i><b>2</b> Initial Score Card</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="initial-score-card.html"><a href="initial-score-card.html#exploratory-data-analysis"><i class="fa fa-check"></i><b>2.1</b> Exploratory Data Analysis</a></li>
+<li class="chapter" data-level="2.2" data-path="initial-score-card.html"><a href="initial-score-card.html#variables-selection"><i class="fa fa-check"></i><b>2.2</b> Variables Selection</a></li>
+<li class="chapter" data-level="2.3" data-path="initial-score-card.html"><a href="initial-score-card.html#standardize-continuous-variables"><i class="fa fa-check"></i><b>2.3</b> Standardize Continuous Variables</a></li>
+<li class="chapter" data-level="2.4" data-path="initial-score-card.html"><a href="initial-score-card.html#standardize-categorical-variables"><i class="fa fa-check"></i><b>2.4</b> Standardize Categorical Variables</a></li>
+<li class="chapter" data-level="2.5" data-path="initial-score-card.html"><a href="initial-score-card.html#initial-logistic-regression-model-and-model-selection"><i class="fa fa-check"></i><b>2.5</b> Initial Logistic Regression Model and Model Selection</a></li>
+<li class="chapter" data-level="2.6" data-path="initial-score-card.html"><a href="initial-score-card.html#evaluate-the-initial-model---training-data"><i class="fa fa-check"></i><b>2.6</b> Evaluate the Initial Model - Training Data</a></li>
+<li class="chapter" data-level="2.7" data-path="initial-score-card.html"><a href="initial-score-card.html#evaluate-the-initial-model---testing-data"><i class="fa fa-check"></i><b>2.7</b> Evaluate the Initial Model - Testing Data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="reject-inference.html"><a href="reject-inference.html"><i class="fa fa-check"></i><b>3</b> Reject Inference</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="reject-inference.html"><a href="reject-inference.html#data-cleaning"><i class="fa fa-check"></i><b>3.1</b> Data Cleaning</a></li>
+<li class="chapter" data-level="3.2" data-path="reject-inference.html"><a href="reject-inference.html#predicted-scores"><i class="fa fa-check"></i><b>3.2</b> Predicted Scores</a></li>
+<li class="chapter" data-level="3.3" data-path="reject-inference.html"><a href="reject-inference.html#predicted-default-probability"><i class="fa fa-check"></i><b>3.3</b> Predicted Default Probability</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html"><i class="fa fa-check"></i><b>4</b> Build Final Scorecard Model</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html#build-the-logistic-regression-and-variable-selection"><i class="fa fa-check"></i><b>4.1</b> Build the logistic regression and variable selection</a></li>
+<li class="chapter" data-level="4.2" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html#evaluate-the-initial-model"><i class="fa fa-check"></i><b>4.2</b> Evaluate the Initial Model</a></li>
+<li class="chapter" data-level="4.3" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html#final-scorecard"><i class="fa fa-check"></i><b>4.3</b> Final Scorecard</a></li>
+<li class="chapter" data-level="4.4" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html#score-distribution"><i class="fa fa-check"></i><b>4.4</b> Score distribution</a></li>
+<li class="chapter" data-level="4.5" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html#plotting-default-acceptance-profit-by-score"><i class="fa fa-check"></i><b>4.5</b> Plotting Default, Acceptance, &amp; Profit By Score</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="plot_ly.html"><a href="plot_ly.html"><i class="fa fa-check"></i><b>5</b> PLOT_LY</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Financial Scorecard</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="reject-inference" class="section level1" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Reject Inference</h1>
+<div id="data-cleaning" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Data Cleaning</h2>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="reject-inference.html#cb31-1" aria-hidden="true" tabindex="-1"></a>rejects<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;/Users/mingming/Documents/Financial Analysis/Homework1_FA/rejected_customers.csv&quot;</span>)</span>
+<span id="cb31-2"><a href="reject-inference.html#cb31-2" aria-hidden="true" tabindex="-1"></a>accepts<span class="sc">$</span>good <span class="ot">&lt;-</span> <span class="fu">abs</span>(accepts<span class="sc">$</span>GB <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb31-3"><a href="reject-inference.html#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="reject-inference.html#cb31-4" aria-hidden="true" tabindex="-1"></a>catag_variable_new<span class="ot">=</span><span class="fu">names</span>(rejects)[<span class="fu">names</span>(rejects)<span class="sc">%in%</span>catag_variable]</span>
+<span id="cb31-5"><a href="reject-inference.html#cb31-5" aria-hidden="true" tabindex="-1"></a>rejects[,catag_variable_new]<span class="ot">=</span><span class="fu">lapply</span>(rejects[,catag_variable_new],as.factor)</span>
+<span id="cb31-6"><a href="reject-inference.html#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="reject-inference.html#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="do">#################</span></span>
+<span id="cb31-8"><a href="reject-inference.html#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(train[,<span class="fu">c</span>(<span class="st">&quot;TMJOB1_bin&quot;</span>,<span class="st">&quot;TMJOB1_WOE&quot;</span>)])</span></code></pre></div>
+<pre><code>##      TMJOB1_bin TMJOB1_WOE
+## 2190  02 &lt;= 144    -0.0402
+## 51     03 &gt; 144     1.0757
+## 2712   01 &lt;= 15    -0.5484</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="reject-inference.html#cb33-1" aria-hidden="true" tabindex="-1"></a>rejects<span class="sc">$</span>TMJOB1_bin<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="st">&quot;&quot;</span>,<span class="fu">nrow</span>(rejects))</span>
+<span id="cb33-2"><a href="reject-inference.html#cb33-2" aria-hidden="true" tabindex="-1"></a>rejects<span class="sc">$</span>TMJOB1_bin[rejects<span class="sc">$</span>TMJOB1<span class="sc">&lt;=</span><span class="dv">15</span>]<span class="ot">=</span><span class="st">&quot;&lt;= 15&quot;</span></span>
+<span id="cb33-3"><a href="reject-inference.html#cb33-3" aria-hidden="true" tabindex="-1"></a>rejects<span class="sc">$</span>TMJOB1_bin[rejects<span class="sc">$</span>TMJOB1<span class="sc">&lt;=</span><span class="dv">144</span><span class="sc">&amp;</span>rejects<span class="sc">$</span>TMJOB1<span class="sc">&gt;</span><span class="dv">15</span>]<span class="ot">=</span><span class="st">&quot;&lt;= 144&quot;</span></span>
+<span id="cb33-4"><a href="reject-inference.html#cb33-4" aria-hidden="true" tabindex="-1"></a>rejects<span class="sc">$</span>TMJOB1_bin[rejects<span class="sc">$</span>TMJOB1<span class="sc">&gt;</span><span class="dv">144</span>]<span class="ot">=</span><span class="st">&quot;&gt;144&quot;</span></span>
+<span id="cb33-5"><a href="reject-inference.html#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="reject-inference.html#cb33-6" aria-hidden="true" tabindex="-1"></a>rejects<span class="sc">$</span>TMJOB1_WOE<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">nrow</span>(rejects))</span>
+<span id="cb33-7"><a href="reject-inference.html#cb33-7" aria-hidden="true" tabindex="-1"></a>rejects<span class="sc">$</span>TMJOB1_WOE[rejects<span class="sc">$</span>TMJOB1<span class="sc">&lt;=</span><span class="dv">15</span>]<span class="ot">=</span><span class="sc">-</span><span class="fl">0.5484</span></span>
+<span id="cb33-8"><a href="reject-inference.html#cb33-8" aria-hidden="true" tabindex="-1"></a>rejects<span class="sc">$</span>TMJOB1_WOE[rejects<span class="sc">$</span>TMJOB1<span class="sc">&lt;=</span><span class="dv">144</span><span class="sc">&amp;</span>rejects<span class="sc">$</span>TMJOB1<span class="sc">&gt;</span><span class="dv">15</span>]<span class="ot">=</span><span class="sc">-</span><span class="fl">0.0402</span></span>
+<span id="cb33-9"><a href="reject-inference.html#cb33-9" aria-hidden="true" tabindex="-1"></a>rejects<span class="sc">$</span>TMJOB1_WOE[rejects<span class="sc">$</span>TMJOB1<span class="sc">&gt;</span><span class="dv">144</span>]<span class="ot">=</span><span class="fl">1.0757</span></span>
+<span id="cb33-10"><a href="reject-inference.html#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="reject-inference.html#cb33-11" aria-hidden="true" tabindex="-1"></a>rejects<span class="ot">&lt;-</span><span class="fu">merge</span>(rejects,cate1,<span class="at">by=</span><span class="st">&quot;CARDS&quot;</span>,<span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb33-12"><a href="reject-inference.html#cb33-12" aria-hidden="true" tabindex="-1"></a>rejects<span class="ot">&lt;-</span><span class="fu">merge</span>(rejects,cate2,<span class="at">by=</span><span class="st">&quot;PERS_H&quot;</span>,<span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb33-13"><a href="reject-inference.html#cb33-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-14"><a href="reject-inference.html#cb33-14" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(<span class="fu">lapply</span>(<span class="fu">lapply</span>(rejects,is.na),sum)<span class="sc">&gt;</span><span class="dv">0</span>)</span></code></pre></div>
+<pre><code>##            lapply(lapply(rejects, is.na), sum) &gt; 0
+## PERS_H                                       FALSE
+## CARDS                                        FALSE
+## CHILDREN                                     FALSE
+## AGE                                          FALSE
+## TMADD                                        FALSE
+## TMJOB1                                       FALSE
+## TEL                                          FALSE
+## NMBLOAN                                      FALSE
+## FINLOAN                                      FALSE
+## INCOME                                       FALSE
+## EC_CARD                                      FALSE
+## BUREAU                                       FALSE
+## LOCATION                                     FALSE
+## LOANS                                        FALSE
+## REGN                                         FALSE
+## DIV                                          FALSE
+## CASH                                         FALSE
+## PRODUCT                                      FALSE
+## RESID                                        FALSE
+## NAT                                          FALSE
+## PROF                                         FALSE
+## CAR                                          FALSE
+## TMJOB1_bin                                   FALSE
+## TMJOB1_WOE                                   FALSE
+## woe_CARDS                                     TRUE
+## woe_PERS_H                                    TRUE</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="reject-inference.html#cb35-1" aria-hidden="true" tabindex="-1"></a>rejects[<span class="fu">is.na</span>(rejects<span class="sc">$</span>woe_PERS_H),] <span class="do">### PERS_H fail out the range of the accepted data</span></span></code></pre></div>
+<pre><code>##      PERS_H           CARDS CHILDREN AGE TMADD TMJOB1 TEL NMBLOAN FINLOAN INCOME EC_CARD BUREAU LOCATION
+## 1500     11 no credit cards        9  56   120     12   2       0       0   1600       0      3        1
+##      LOANS REGN DIV CASH         PRODUCT RESID     NAT   PROF             CAR TMJOB1_bin TMJOB1_WOE
+## 1500     0    5   1 1700 Radio, TV, Hifi       Turkish Others Without Vehicle      &lt;= 15    -0.5484
+##      woe_CARDS woe_PERS_H
+## 1500 0.2268594         NA</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="reject-inference.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">##impute</span></span>
+<span id="cb37-2"><a href="reject-inference.html#cb37-2" aria-hidden="true" tabindex="-1"></a>rejects<span class="sc">$</span>woe_PERS_H[<span class="fu">is.na</span>(rejects<span class="sc">$</span>woe_PERS_H)]<span class="ot">=</span><span class="fl">5.3002221</span></span>
+<span id="cb37-3"><a href="reject-inference.html#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="reject-inference.html#cb37-4" aria-hidden="true" tabindex="-1"></a>rejects[<span class="fu">is.na</span>(rejects<span class="sc">$</span>woe_CARDS),] <span class="do">## VISA Citibank is not one category in the accept data</span></span></code></pre></div>
+<pre><code>##      PERS_H         CARDS CHILDREN AGE TMADD TMJOB1 TEL NMBLOAN FINLOAN INCOME EC_CARD BUREAU LOCATION
+## 403       1 VISA Citibank        0  22   264     42   2       2       1      0       0      1        1
+## 1402      4 VISA Citibank        2  36     6    216   2       0       0      0       0      1        1
+##      LOANS REGN DIV CASH         PRODUCT RESID    NAT             PROF             CAR TMJOB1_bin
+## 403      2    3   1 1500 Radio, TV, Hifi Lease German           Others Without Vehicle     &lt;= 144
+## 1402     5    2   1 2500 Radio, TV, Hifi Lease German Military Service             Car       &gt;144
+##      TMJOB1_WOE woe_CARDS woe_PERS_H
+## 403     -0.0402        NA  0.4926674
+## 1402     1.0757        NA -0.2655746</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="reject-inference.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="do">##impute as the value of VISA Others</span></span>
+<span id="cb39-2"><a href="reject-inference.html#cb39-2" aria-hidden="true" tabindex="-1"></a>rejects<span class="sc">$</span>woe_CARDS[<span class="fu">is.na</span>(rejects<span class="sc">$</span>woe_CARDS)]<span class="ot">=</span>train<span class="sc">$</span>woe_CARDS[train<span class="sc">$</span>CARDS<span class="sc">==</span><span class="st">&quot;VISA Others&quot;</span>]</span>
+<span id="cb39-3"><a href="reject-inference.html#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="reject-inference.html#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(<span class="fu">lapply</span>(<span class="fu">lapply</span>(rejects,is.na),sum)<span class="sc">&gt;</span><span class="dv">0</span>)</span></code></pre></div>
+<pre><code>##            lapply(lapply(rejects, is.na), sum) &gt; 0
+## PERS_H                                       FALSE
+## CARDS                                        FALSE
+## CHILDREN                                     FALSE
+## AGE                                          FALSE
+## TMADD                                        FALSE
+## TMJOB1                                       FALSE
+## TEL                                          FALSE
+## NMBLOAN                                      FALSE
+## FINLOAN                                      FALSE
+## INCOME                                       FALSE
+## EC_CARD                                      FALSE
+## BUREAU                                       FALSE
+## LOCATION                                     FALSE
+## LOANS                                        FALSE
+## REGN                                         FALSE
+## DIV                                          FALSE
+## CASH                                         FALSE
+## PRODUCT                                      FALSE
+## RESID                                        FALSE
+## NAT                                          FALSE
+## PROF                                         FALSE
+## CAR                                          FALSE
+## TMJOB1_bin                                   FALSE
+## TMJOB1_WOE                                   FALSE
+## woe_CARDS                                    FALSE
+## woe_PERS_H                                   FALSE</code></pre>
+</div>
+<div id="predicted-scores" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Predicted Scores</h2>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="reject-inference.html#cb41-1" aria-hidden="true" tabindex="-1"></a>pdo <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb41-2"><a href="reject-inference.html#cb41-2" aria-hidden="true" tabindex="-1"></a>score <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb41-3"><a href="reject-inference.html#cb41-3" aria-hidden="true" tabindex="-1"></a>odds <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb41-4"><a href="reject-inference.html#cb41-4" aria-hidden="true" tabindex="-1"></a>fact <span class="ot">&lt;-</span> pdo<span class="sc">/</span><span class="fu">log</span>(<span class="dv">2</span>)</span>
+<span id="cb41-5"><a href="reject-inference.html#cb41-5" aria-hidden="true" tabindex="-1"></a>os <span class="ot">&lt;-</span> score <span class="sc">-</span> fact<span class="sc">*</span><span class="fu">log</span>(odds)</span>
+<span id="cb41-6"><a href="reject-inference.html#cb41-6" aria-hidden="true" tabindex="-1"></a>var_names <span class="ot">&lt;-</span> <span class="fu">names</span>(initial_score_red<span class="sc">$</span>coefficients[<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb41-7"><a href="reject-inference.html#cb41-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-8"><a href="reject-inference.html#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> var_names) {</span>
+<span id="cb41-9"><a href="reject-inference.html#cb41-9" aria-hidden="true" tabindex="-1"></a>  beta <span class="ot">&lt;-</span> initial_score_red<span class="sc">$</span>coefficients[i]</span>
+<span id="cb41-10"><a href="reject-inference.html#cb41-10" aria-hidden="true" tabindex="-1"></a>  beta0 <span class="ot">&lt;-</span> initial_score_red<span class="sc">$</span>coefficients[<span class="st">&quot;(Intercept)&quot;</span>]</span>
+<span id="cb41-11"><a href="reject-inference.html#cb41-11" aria-hidden="true" tabindex="-1"></a>  nvar <span class="ot">&lt;-</span> <span class="fu">length</span>(var_names)</span>
+<span id="cb41-12"><a href="reject-inference.html#cb41-12" aria-hidden="true" tabindex="-1"></a>  WOE_var <span class="ot">&lt;-</span> rejects[[i]]</span>
+<span id="cb41-13"><a href="reject-inference.html#cb41-13" aria-hidden="true" tabindex="-1"></a>  points_name <span class="ot">&lt;-</span> <span class="fu">paste</span>(i, <span class="st">&quot;points&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb41-14"><a href="reject-inference.html#cb41-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb41-15"><a href="reject-inference.html#cb41-15" aria-hidden="true" tabindex="-1"></a>  rejects[[points_name]] <span class="ot">&lt;-</span> <span class="sc">-</span>(WOE_var<span class="sc">*</span>(beta) <span class="sc">+</span> (beta0<span class="sc">/</span>nvar))<span class="sc">*</span>fact <span class="sc">+</span> os<span class="sc">/</span>nvar</span>
+<span id="cb41-16"><a href="reject-inference.html#cb41-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb41-17"><a href="reject-inference.html#cb41-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-18"><a href="reject-inference.html#cb41-18" aria-hidden="true" tabindex="-1"></a>colini <span class="ot">&lt;-</span> (<span class="fu">ncol</span>(rejects)<span class="sc">-</span>nvar <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb41-19"><a href="reject-inference.html#cb41-19" aria-hidden="true" tabindex="-1"></a>colend <span class="ot">&lt;-</span> <span class="fu">ncol</span>(rejects)</span>
+<span id="cb41-20"><a href="reject-inference.html#cb41-20" aria-hidden="true" tabindex="-1"></a>rejects<span class="sc">$</span>Score <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(rejects[, colini<span class="sc">:</span>colend])</span></code></pre></div>
+</div>
+<div id="predicted-default-probability" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Predicted Default Probability</h2>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="reject-inference.html#cb42-1" aria-hidden="true" tabindex="-1"></a>rejects<span class="sc">$</span>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(initial_score_red, <span class="at">newdata=</span>rejects, <span class="at">type=</span><span class="st">&#39;response&#39;</span>)</span>
+<span id="cb42-2"><a href="reject-inference.html#cb42-2" aria-hidden="true" tabindex="-1"></a>rejects<span class="sc">$</span>GB <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(rejects<span class="sc">$</span>pred <span class="sc">&gt;</span> <span class="fl">0.03351922</span>)</span>
+<span id="cb42-3"><a href="reject-inference.html#cb42-3" aria-hidden="true" tabindex="-1"></a>rejects<span class="sc">$</span>good <span class="ot">&lt;-</span> <span class="fu">abs</span>(rejects<span class="sc">$</span>GB <span class="sc">-</span> <span class="dv">1</span>)</span></code></pre></div>
+<ul>
+<li>Data oversampling and weight calculation</li>
+</ul>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="reject-inference.html#cb43-1" aria-hidden="true" tabindex="-1"></a>pop_g <span class="ot">&lt;-</span> <span class="dv">9677</span></span>
+<span id="cb43-2"><a href="reject-inference.html#cb43-2" aria-hidden="true" tabindex="-1"></a>pop_b <span class="ot">&lt;-</span> <span class="dv">323</span></span>
+<span id="cb43-3"><a href="reject-inference.html#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="reject-inference.html#cb43-4" aria-hidden="true" tabindex="-1"></a>sam_g <span class="ot">&lt;-</span> <span class="dv">1500</span></span>
+<span id="cb43-5"><a href="reject-inference.html#cb43-5" aria-hidden="true" tabindex="-1"></a>sam_b <span class="ot">&lt;-</span> <span class="dv">1500</span></span>
+<span id="cb43-6"><a href="reject-inference.html#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="reject-inference.html#cb43-7" aria-hidden="true" tabindex="-1"></a>pop_sam_gb_ratio <span class="ot">&lt;-</span> (pop_g<span class="sc">/</span>pop_b)<span class="sc">/</span>(sam_g<span class="sc">/</span>sam_b)</span>
+<span id="cb43-8"><a href="reject-inference.html#cb43-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-9"><a href="reject-inference.html#cb43-9" aria-hidden="true" tabindex="-1"></a>pop_a <span class="ot">&lt;-</span> <span class="fl">0.75</span></span>
+<span id="cb43-10"><a href="reject-inference.html#cb43-10" aria-hidden="true" tabindex="-1"></a>pop_r <span class="ot">&lt;-</span> <span class="fl">0.25</span></span>
+<span id="cb43-11"><a href="reject-inference.html#cb43-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-12"><a href="reject-inference.html#cb43-12" aria-hidden="true" tabindex="-1"></a>sam_a <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb43-13"><a href="reject-inference.html#cb43-13" aria-hidden="true" tabindex="-1"></a>sam_r <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb43-14"><a href="reject-inference.html#cb43-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-15"><a href="reject-inference.html#cb43-15" aria-hidden="true" tabindex="-1"></a>pop_sam_ar_ratio <span class="ot">&lt;-</span> (pop_a<span class="sc">/</span>pop_r)<span class="sc">/</span>(sam_a<span class="sc">/</span>sam_r)</span>
+<span id="cb43-16"><a href="reject-inference.html#cb43-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-17"><a href="reject-inference.html#cb43-17" aria-hidden="true" tabindex="-1"></a>weight_rb <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb43-18"><a href="reject-inference.html#cb43-18" aria-hidden="true" tabindex="-1"></a>weight_rg <span class="ot">&lt;-</span> pop_sam_gb_ratio</span>
+<span id="cb43-19"><a href="reject-inference.html#cb43-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-20"><a href="reject-inference.html#cb43-20" aria-hidden="true" tabindex="-1"></a>weight_ab <span class="ot">&lt;-</span> pop_sam_ar_ratio</span>
+<span id="cb43-21"><a href="reject-inference.html#cb43-21" aria-hidden="true" tabindex="-1"></a>weight_ag <span class="ot">&lt;-</span> pop_sam_ar_ratio<span class="sc">*</span>pop_sam_gb_ratio</span>
+<span id="cb43-22"><a href="reject-inference.html#cb43-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-23"><a href="reject-inference.html#cb43-23" aria-hidden="true" tabindex="-1"></a>accepts<span class="sc">$</span>weight_ar <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(accepts<span class="sc">$</span>GB <span class="sc">==</span> <span class="dv">1</span>, weight_ab, weight_ag)</span>
+<span id="cb43-24"><a href="reject-inference.html#cb43-24" aria-hidden="true" tabindex="-1"></a>rejects<span class="sc">$</span>weight_ar <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(rejects<span class="sc">$</span>GB <span class="sc">==</span> <span class="dv">1</span>, weight_rb, weight_rg)</span>
+<span id="cb43-25"><a href="reject-inference.html#cb43-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-26"><a href="reject-inference.html#cb43-26" aria-hidden="true" tabindex="-1"></a>accepts<span class="ot">=</span><span class="fu">subset</span>(accepts,<span class="at">select=</span><span class="sc">-</span><span class="fu">c</span>(X_freq_))</span>
+<span id="cb43-27"><a href="reject-inference.html#cb43-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-28"><a href="reject-inference.html#cb43-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-29"><a href="reject-inference.html#cb43-29" aria-hidden="true" tabindex="-1"></a>comb_hard <span class="ot">&lt;-</span> <span class="fu">rbind</span>(accepts, rejects[,<span class="fu">names</span>(accepts)]) <span class="co"># New Combined Data Set #</span></span>
+<span id="cb43-30"><a href="reject-inference.html#cb43-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-31"><a href="reject-inference.html#cb43-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Below can be used to see if there is any missing value</span></span>
+<span id="cb43-32"><a href="reject-inference.html#cb43-32" aria-hidden="true" tabindex="-1"></a><span class="co"># lapply(lapply(accepts,is.na),sum)&gt;0</span></span>
+<span id="cb43-33"><a href="reject-inference.html#cb43-33" aria-hidden="true" tabindex="-1"></a><span class="co"># lapply(lapply(rejects,is.na),sum)&gt;0</span></span>
+<span id="cb43-34"><a href="reject-inference.html#cb43-34" aria-hidden="true" tabindex="-1"></a><span class="co"># lapply(lapply(comb_hard,is.na),sum)&gt;0</span></span></code></pre></div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="initial-score-card.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="build-final-scorecard-model.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Arctansin/Scorecard/edit/master/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/Arctansin/Scorecard/blob/master/index.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

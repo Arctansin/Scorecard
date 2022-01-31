@@ -1,9 +1,701 @@
 --- 
-title: "YOUR TITLE HERE"
-author: "YOUR NAME HERE"
+title: "Financial Scorecard"
+author: "Mingming Li"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 ---
 
-# Down the rabbit-hole
+# Overview
+The goal of this project is to maximize the profit with acceptable default risks. We built a model to study key variables that might lead a customer to default; then, we referred to the rejection data to adjust the model’s accuracy. Based on the final model we created, we designed the scorecard, which measures the applicants in three dimensions, Persons Per Household, Name of Credit Card, Time at Job (months). The results showed that to keep the risk of default rate at 3.23%, our model can help the Bank accept 96% of applications, and to keep the acceptance rate at the original 75%, the model can minimize the default rate to 1.41%. We suggest the company use our model to assess credit card applications and set the score cutoff between 441 and 472 to lower the default risks while accepting more applications.
+
+![Scorecard](/Users/mingming/Documents/GitHub/Scorecard/Cutoff.png)
+
+# Initial Score Card
+```{r setup, include=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(gmodels)
+library(vcd)
+library(tcltk)
+library(smbinning)
+library(dplyr)
+library(stringr)
+library(shades)
+library(latticeExtra)
+library(plotly)
+library(ROCR)
+library(klaR)
+```
+
+```{r, warning=FALSE, include=FALSE}
+accepts<-read.csv("/Users/mingming/Documents/Financial Analysis/Homework1_FA/accepted_customers.csv")
+rejects<-read.csv("/Users/mingming/Documents/Financial Analysis/Homework1_FA/rejected_customers.csv")
+```
+
+- Dropping Division, Nationality, Age, and Number of Children for regulatory requirements 
+```{r, warning=FALSE}
+accepts<-subset(accepts, select=-c(DIV, CHILDREN, NAT,  AGE))
+rejects<-subset(rejects, select=-c(DIV, CHILDREN, NAT,  AGE))
+accepts$good <- abs(accepts$GB - 1)
+```
+
+## Exploratory Data Analysis
+- unique value for each variable
+```{r, warning=FALSE}
+print(as.data.frame(lapply(lapply(accepts,unique),length)))
+set.seed(12345)
+train_id <- sample(seq_len(nrow(accepts)), size = floor(0.70*nrow(accepts)))
+train <- accepts[train_id, ]
+test <- accepts[-train_id, ]
+```
+- Variable Classification
+  - Categorical Variable
+    1. Variable Level < = 10
+    2. Variable Type is Character
+  - Continuous Variables
+    Not Continuous
+```{r, warning=FALSE}
+col_unique<-lapply(lapply(train,unique),length)
+catag_variable<-names(col_unique[col_unique<=10])
+chara_type<-lapply(train,typeof)
+chara_names<-names(chara_type[chara_type=="character"])
+catag_variable<-unique(c(chara_names,catag_variable))
+catag_variable<-subset(catag_variable,!(catag_variable%in%c("good")))
+conti_variable<-names(train)
+conti_variable<-subset(conti_variable,!(conti_variable%in%catag_variable))
+```
+
+Factorize the categorical variables
+```{r, warning=FALSE}
+train[,catag_variable]=lapply(train[,catag_variable],as.factor)
+test[,catag_variable]=lapply(test[,catag_variable],as.factor)
+```
+
+## Variables Selection
+- key_variable
+  - Continuous Variables: Tenure, Income
+  - Categorical Variables: Person in the household, Card Name, EC Card Holder
+```{r,warning=FALSE,include=FALSE}
+iv_summary <- smbinning.sumiv(df = train, y = "good")
+```
+
+```{r,warning=FALSE}
+result_con <- list() # Creating empty list to store all results #
+for(i in 1:length(conti_variable)){
+  result_con[[conti_variable[i]]] <- smbinning(df = train, y = "good", x = conti_variable[i])
+}
+```
+
+```{r,warning=FALSE}
+smbinning.sumiv.plot(iv_summary)
+key_variable<-iv_summary$Char[iv_summary$IV>=0.1&is.na(iv_summary$IV)==FALSE]
+results<-c(result_con)
+result_all_sig<-results[key_variable]
+```
+
+## Standardize Continuous Variables
+- Bin continuous variables and Caclulate the WOE
+- Add the Binned Variable and WOE to the original training dataset
+```{r}
+for(i in 1:2) {
+  train <- smbinning.gen(df = train, ivout = result_all_sig[[i]], chrname = paste(result_all_sig[[i]]$x, "_bin", sep = ""))
+}
+
+for (j in 1:2) {
+  for (i in 1:nrow(train)) {
+    bin_name <- paste(result_all_sig[[j]]$x, "_bin", sep = "")
+    bin <- substr(train[[bin_name]][i], 2, 2)
+    
+    woe_name <- paste(result_all_sig[[j]]$x, "_WOE", sep = "")
+    
+    if(bin == 0) {
+      bin <- dim(result_all_sig[[j]]$ivtable)[1] - 1
+      train[[woe_name]][i] <- result_all_sig[[j]]$ivtable[bin, "WoE"]
+    } else {
+      train[[woe_name]][i] <- result_all_sig[[j]]$ivtable[bin, "WoE"]
+    }
+  }
+}
+```
+
+## Standardize Categorical Variables
+- Calculate the WOE using the klaR package
+- Add WOE to the original training dataset
+```{r,warning=FALSE,include=FALSE,error=FALSE,message=FALSE}
+#lapply(lapply(train[,key_variable[3:5]],is.na),sum)
+library(klaR)
+```
+
+```{r,warning=FALSE,error=FALSE,message=FALSE}
+train$good<-as.factor(train$good)
+woemodel <- woe(good~., data = train, zeroadj=0.005, applyontrain = TRUE)
+traindata <- predict(woemodel, train, replace = TRUE)
+train=cbind(train,traindata[,c("woe_CARDS","woe_PERS_H","woe_EC_CARD")])
+
+############################## mapping tables for the categorical woe ##############################
+cate1=unique(train[,c("CARDS","woe_CARDS")])
+cate2=unique(train[,c("PERS_H","woe_PERS_H")])
+cate3=unique(train[,c("EC_CARD","woe_EC_CARD")])
+####################################################################################################
+
+```
+
+## Initial Logistic Regression Model and Model Selection
+```{r,warning=FALSE,error=FALSE}
+train$X_freq_=as.numeric(as.character(train$X_freq_))
+initial_score <- glm(data = train, GB ~  
+                       TMJOB1_WOE + 
+                       INCOME_WOE + woe_CARDS+woe_PERS_H+woe_EC_CARD
+                     , weights =X_freq_,family = "binomial")
+
+summary(initial_score)
+
+# Variable Selected Logistic Regression
+initial_score_red <- glm(data = train, GB ~  
+                           TMJOB1_WOE + 
+                           woe_CARDS+woe_PERS_H
+                         , weights =X_freq_,family = "binomial")
+
+summary(initial_score_red)
+
+```
+
+## Evaluate the Initial Model - Training Data 
+```{r,warning=FALSE,error=FALSE}
+## where predictions have outliers train$pred>=0.2
+train$pred=predict(initial_score_red,data=train,type = "response")
+train$GB<-as.numeric(as.character(train$GB))
+train$good<-as.numeric(as.character(train$good))
+smbinning.metrics(dataset = train, prediction = "pred", actualclass = "GB", report = 1)
+smbinning.metrics(dataset = train[train$pred<=0.2,], prediction = "pred", actualclass = "GB", report = 0, plot = "ks")
+smbinning.metrics(dataset = train, prediction = "pred", actualclass = "GB", report = 0, plot = "auc")
+
+pred<-prediction(fitted(initial_score_red),factor(train$GB))
+perf<-performance(pred,measure="tpr",x.measure="fpr")
+plot(perf,lwd=3,colorsize=TRUE,colorkey=TRUE,colorsize.palette=rev(gray.colors(256)))
+
+KS<-max(perf@y.values[[1]]-perf@x.values[[1]]) ## 0.03351922
+cutoffAtKS<-unlist(perf@alpha.values)[which.max(perf@y.values[[1]]-perf@x.values[[1]])]
+print(c(KS,cutoffAtKS))
+```
+
+## Evaluate the Initial Model - Testing Data
+```{r,warning=FALSE}
+for(i in 1:2) {
+  test <- smbinning.gen(df = test, ivout = result_all_sig[[i]], chrname = paste(result_all_sig[[i]]$x, "_bin", sep = ""))
+}
+
+for (j in 1:2) {
+  for (i in 1:nrow(test)) {
+    bin_name <- paste(result_all_sig[[j]]$x, "_bin", sep = "")
+    bin <- substr(test[[bin_name]][i], 2, 2)
+    
+    woe_name <- paste(result_all_sig[[j]]$x, "_WOE", sep = "")
+    
+    if(bin == 0) {
+      bin <- dim(result_all_sig[[j]]$ivtable)[1] - 1
+      test[[woe_name]][i] <- result_all_sig[[j]]$ivtable[bin, "WoE"]
+    } else {
+      test[[woe_name]][i] <- result_all_sig[[j]]$ivtable[bin, "WoE"]
+    }
+  }
+}
+
+test$good<-as.factor(test$good)
+
+########## categorical ####################################
+test<-merge(test,cate1,by="CARDS",all.x = TRUE)
+test<-merge(test,cate2,by="PERS_H",all.x = TRUE)
+########## categorical ####################################
+
+test$good=as.numeric(as.character(test$good))
+test$GB=as.numeric(as.character(test$GB))
+test$X_freq_=as.numeric(as.character(test$X_freq_))
+test$pred <- predict(initial_score_red, newdata=test, type='response')
+smbinning.metrics(dataset = test, prediction = "pred", actualclass = "GB", report = 1)
+smbinning.metrics(dataset = test[test$pred<=0.2,], prediction = "pred", actualclass = "GB", report = 0, plot = "ks")
+smbinning.metrics(dataset = test, prediction = "pred", actualclass = "GB", report = 0, plot = "auc")
+
+```
+
+# Reject Inference
+
+## Data Cleaning
+```{r,warning=FALSE}
+rejects<-read.csv("/Users/mingming/Documents/Financial Analysis/Homework1_FA/rejected_customers.csv")
+accepts$good <- abs(accepts$GB - 1)
+
+catag_variable_new=names(rejects)[names(rejects)%in%catag_variable]
+rejects[,catag_variable_new]=lapply(rejects[,catag_variable_new],as.factor)
+
+#################
+unique(train[,c("TMJOB1_bin","TMJOB1_WOE")])
+rejects$TMJOB1_bin<-rep("",nrow(rejects))
+rejects$TMJOB1_bin[rejects$TMJOB1<=15]="<= 15"
+rejects$TMJOB1_bin[rejects$TMJOB1<=144&rejects$TMJOB1>15]="<= 144"
+rejects$TMJOB1_bin[rejects$TMJOB1>144]=">144"
+
+rejects$TMJOB1_WOE<-rep(0,nrow(rejects))
+rejects$TMJOB1_WOE[rejects$TMJOB1<=15]=-0.5484
+rejects$TMJOB1_WOE[rejects$TMJOB1<=144&rejects$TMJOB1>15]=-0.0402
+rejects$TMJOB1_WOE[rejects$TMJOB1>144]=1.0757
+
+rejects<-merge(rejects,cate1,by="CARDS",all.x = TRUE)
+rejects<-merge(rejects,cate2,by="PERS_H",all.x = TRUE)
+
+as.data.frame(lapply(lapply(rejects,is.na),sum)>0)
+
+rejects[is.na(rejects$woe_PERS_H),] ### PERS_H fail out the range of the accepted data
+##impute
+rejects$woe_PERS_H[is.na(rejects$woe_PERS_H)]=5.3002221
+
+rejects[is.na(rejects$woe_CARDS),] ## VISA Citibank is not one category in the accept data
+##impute as the value of VISA Others
+rejects$woe_CARDS[is.na(rejects$woe_CARDS)]=train$woe_CARDS[train$CARDS=="VISA Others"]
+
+as.data.frame(lapply(lapply(rejects,is.na),sum)>0)
+```
+
+## Predicted Scores
+```{r,warning=FALSE}
+pdo <- 20
+score <- 500
+odds <- 50
+fact <- pdo/log(2)
+os <- score - fact*log(odds)
+var_names <- names(initial_score_red$coefficients[-1])
+
+for(i in var_names) {
+  beta <- initial_score_red$coefficients[i]
+  beta0 <- initial_score_red$coefficients["(Intercept)"]
+  nvar <- length(var_names)
+  WOE_var <- rejects[[i]]
+  points_name <- paste(i, "points", sep="")
+  
+  rejects[[points_name]] <- -(WOE_var*(beta) + (beta0/nvar))*fact + os/nvar
+}
+
+colini <- (ncol(rejects)-nvar + 1)
+colend <- ncol(rejects)
+rejects$Score <- rowSums(rejects[, colini:colend])
+
+
+```
+
+## Predicted Default Probability 
+```{r,warning=FALSE}
+rejects$pred <- predict(initial_score_red, newdata=rejects, type='response')
+rejects$GB <- as.numeric(rejects$pred > 0.03351922)
+rejects$good <- abs(rejects$GB - 1)
+```
+
+  - Data oversampling and weight calculation
+```{r,warning=FALSE}
+pop_g <- 9677
+pop_b <- 323
+
+sam_g <- 1500
+sam_b <- 1500
+
+pop_sam_gb_ratio <- (pop_g/pop_b)/(sam_g/sam_b)
+
+pop_a <- 0.75
+pop_r <- 0.25
+
+sam_a <- 30
+sam_r <- 15
+
+pop_sam_ar_ratio <- (pop_a/pop_r)/(sam_a/sam_r)
+
+weight_rb <- 1
+weight_rg <- pop_sam_gb_ratio
+
+weight_ab <- pop_sam_ar_ratio
+weight_ag <- pop_sam_ar_ratio*pop_sam_gb_ratio
+
+accepts$weight_ar <- ifelse(accepts$GB == 1, weight_ab, weight_ag)
+rejects$weight_ar <- ifelse(rejects$GB == 1, weight_rb, weight_rg)
+
+accepts=subset(accepts,select=-c(X_freq_))
+
+
+comb_hard <- rbind(accepts, rejects[,names(accepts)]) # New Combined Data Set #
+
+# Below can be used to see if there is any missing value
+# lapply(lapply(accepts,is.na),sum)>0
+# lapply(lapply(rejects,is.na),sum)>0
+# lapply(lapply(comb_hard,is.na),sum)>0
+
+```
+
+# Build Final Scorecard Model
+  - Data Binning and WOE calculation
+```{r, warning=FALSE}
+comb <- comb_hard # Select which data set you want to use from above techniques #
+
+set.seed(12345)
+train_id <- sample(seq_len(nrow(comb)), size = floor(0.7*nrow(comb)))
+
+train <- comb[train_id, ]
+test <- comb[-train_id, ]
+
+## categorical variable -> level<10, or
+col_unique<-lapply(lapply(train,unique),length)
+catag_variable<-names(col_unique[col_unique<=10])
+
+#2. type=character 
+chara_type<-lapply(train,typeof)
+chara_names<-names(chara_type[chara_type=="character"])
+catag_variable<-unique(c(chara_names,catag_variable))
+catag_variable<-subset(catag_variable,!(catag_variable%in%c("good")))
+
+#continuous variable (not categorical)
+conti_variable<-names(train)
+conti_variable<-subset(conti_variable,!(conti_variable%in%catag_variable))
+
+# factorize both train and the test
+train[,catag_variable]=lapply(train[,catag_variable],as.factor)
+#str(train)
+
+test[,catag_variable]=lapply(test[,catag_variable],as.factor)
+#str(test)
+
+# Binning continuous variable 
+result_con <- list()
+for(i in 1:length(conti_variable)){
+  result_con[[conti_variable[i]]] <- smbinning(df = train, y = "good", x = conti_variable[i])
+}
+```
+
+
+```{r, warning=FALSE, include=FALSE}
+# select variables based on the IV
+iv_summary <- smbinning.sumiv(df = train, y = "good")
+```
+
+
+```{r, warning=FALSE}
+smbinning.sumiv.plot(iv_summary)
+key_variable<-iv_summary$Char[iv_summary$IV>=0.1&is.na(iv_summary$IV)==FALSE]
+
+results<-c(result_con)
+result_all_sig<-results[key_variable]
+
+for(i in c(1,4)) {
+  train <- smbinning.gen(df = train, ivout = result_all_sig[[i]], chrname = paste(result_all_sig[[i]]$x, "_bin", sep = ""))
+}
+
+for (j in c(1,4)) {
+  for (i in 1:nrow(train)) {
+    bin_name <- paste(result_all_sig[[j]]$x, "_bin", sep = "")
+    bin <- substr(train[[bin_name]][i], 2, 2)
+    
+    woe_name <- paste(result_all_sig[[j]]$x, "_WOE", sep = "")
+    
+    if(bin == 0) {
+      bin <- dim(result_all_sig[[j]]$ivtable)[1] - 1
+      train[[woe_name]][i] <- result_all_sig[[j]]$ivtable[bin, "WoE"]
+    } else {
+      train[[woe_name]][i] <- result_all_sig[[j]]$ivtable[bin, "WoE"]
+    }
+  }
+}
+
+#Below is useful for checking data cleaning process
+#lapply(lapply(train[,key_variable[c(2,3,5)]],is.na),sum)
+
+# calculate the WOE
+train$good<-as.factor(train$good)
+woemodel <- woe(good~., data = train, zeroadj=0.005, applyontrain = TRUE)
+
+## apply woes 
+traindata <- predict(woemodel, train, replace = TRUE)
+#str(traindata)
+train=cbind(train,traindata[,c("woe_CARDS","woe_PERS_H","woe_EC_CARD")])
+
+############################## mapling table for the categorical woe ##############################
+
+cate1=unique(train[,c("CARDS","woe_CARDS")])
+cate2=unique(train[,c("PERS_H","woe_PERS_H")])
+cate3=unique(train[,c("EC_CARD","woe_EC_CARD")])
+
+####################################################################################################
+
+train$weight_ar<-as.numeric(as.character(train$weight_ar))
+```
+
+## Build the logistic regression and variable selection
+```{r, warning=FALSE}
+initial_score <- glm(data = train, GB ~  
+                       TMJOB1_WOE + INCOME_WOE+
+                        woe_CARDS+woe_PERS_H+woe_EC_CARD
+                     , weights =weight_ar,family = "binomial")
+
+summary(initial_score)
+```
+
+  - Variable Selected Logistic Regression
+```{r, warning=FALSE}
+initial_score_red <- glm(data = train, GB ~  
+                           TMJOB1_WOE + 
+                           woe_CARDS+woe_PERS_H
+                         , weights =weight_ar,family = "binomial")
+
+summary(initial_score_red)
+```
+## Evaluate the Initial Model 
+  - Training Data
+    1. KS - > best cut off 0.04327352
+    2. ROC
+```{r, warning=FALSE}
+train$pred=predict(initial_score_red,data=train,type = "response")
+
+#train[is.na(train$weight_ar),]
+
+train$GB<-as.numeric(as.character(train$GB))
+train$good<-as.numeric(as.character(train$good))
+smbinning.metrics(dataset = train, prediction = "pred", actualclass = "GB", report = 1)
+smbinning.metrics(dataset = train[train$pred<=0.4,], prediction = "pred", actualclass = "GB", report = 0, plot = "ks")
+smbinning.metrics(dataset = train, prediction = "pred", actualclass = "GB", report = 0, plot = "auc")
+
+pred<-prediction(fitted(initial_score_red),factor(train$GB))
+perf<-performance(pred,measure="tpr",x.measure="fpr")
+plot(perf,lwd=3,colorsize=TRUE,colorkey=TRUE,colorsize.palette=rev(gray.colors(256)))
+
+KS<-max(perf@y.values[[1]]-perf@x.values[[1]])
+cutoffAtKS<-unlist(perf@alpha.values)[which.max(perf@y.values[[1]]-perf@x.values[[1]])]
+print(c(KS,cutoffAtKS))
+```
+  - Testing Data
+```{r,warning=FALSE}
+test <- comb[-train_id, ]
+test[,catag_variable]=lapply(test[,catag_variable],as.factor)
+str(test)
+
+for(i in 1:1) {
+  test <- smbinning.gen(df = test, ivout = result_all_sig[[i]], chrname = paste(result_all_sig[[i]]$x, "_bin", sep = ""))
+}
+
+for (j in 1:1) {
+  for (i in 1:nrow(test)) {
+    bin_name <- paste(result_all_sig[[j]]$x, "_bin", sep = "")
+    bin <- substr(test[[bin_name]][i], 2, 2)
+    
+    woe_name <- paste(result_all_sig[[j]]$x, "_WOE", sep = "")
+    
+    if(bin == 0) {
+      bin <- dim(result_all_sig[[j]]$ivtable)[1] - 1
+      test[[woe_name]][i] <- result_all_sig[[j]]$ivtable[bin, "WoE"]
+    } else {
+      test[[woe_name]][i] <- result_all_sig[[j]]$ivtable[bin, "WoE"]
+    }
+  }
+}
+
+test$good<-as.factor(test$good)
+
+########## categorical ####################################
+test<-merge(test,cate1,by="CARDS",all.x = TRUE)
+test<-merge(test,cate2,by="PERS_H",all.x = TRUE)
+########## categorical ####################################
+
+test$good=as.numeric(as.character(test$good))
+test$GB=as.numeric(as.character(test$GB))
+test$pred <- predict(initial_score_red, newdata=test, type='response')
+smbinning.metrics(dataset = test, prediction = "pred", actualclass = "GB", report = 1)
+smbinning.metrics(dataset = test[test$pred<=0.4,], prediction = "pred", actualclass = "GB", report = 1, plot = "ks")
+smbinning.metrics(dataset = test, prediction = "pred", actualclass = "GB", report = 0, plot = "auc")
+
+```
+
+## Final Scorecard
+```{r,warning=FALSE}
+
+final_score<-initial_score_red
+
+pdo <- 20
+score <- 500
+odds <- 50
+fact <- pdo/log(2)
+os <- score - fact*log(odds)
+var_names <- names(final_score$coefficients[-1])
+
+for(i in var_names) {
+  beta <- final_score$coefficients[i]
+  beta0 <- final_score$coefficients["(Intercept)"]
+  nvar <- length(var_names)
+  WOE_var <- train[[i]]
+  points_name <- paste(str_sub(i, end = -4), "points", sep="")
+  
+  train[[points_name]] <- -(WOE_var*(beta) + (beta0/nvar))*fact + os/nvar
+}
+
+colini <- (ncol(train)-nvar + 1)
+colend <- ncol(train)
+train$Score <- rowSums(train[, colini:colend])
+hist(train$Score, xlim=range(400,600), breaks = 30, main = "Distribution of Scores", xlab = "Score")
+
+for(i in var_names) {
+  beta <- final_score$coefficients[i]
+  beta0 <- final_score$coefficients["(Intercept)"]
+  nvar <- length(var_names)
+  WOE_var <- test[[i]]
+  points_name <- paste(str_sub(i, end = -4), "points", sep="")
+  
+  test[[points_name]] <- -(WOE_var*(beta) + (beta0/nvar))*fact + os/nvar
+}
+
+colini <- (ncol(test)-nvar + 1)
+colend <- ncol(test)
+test$Score <- rowSums(test[, colini:colend])
+
+hist(test$Score, xlim=range(400,600), breaks = 30, main = "Distribution of Test Scores", xlab = "Score")
+
+accepts_scored_comb <- rbind(train[,names(test)], test)
+hist(accepts_scored_comb$Score,xlim=range(400,600), breaks = 30, main = "Distribution of Scores", xlab = "Score")
+
+################# Score Card ###################
+
+PERS_H_Score=unique(train[,c("PERS_H","woe_PERpoints")])
+names(PERS_H_Score)=c("PERS_H","Point")
+CARDS_Score=unique(train[,c("CARDS","woe_CApoints")])
+names(CARDS_Score)=c("CARDS","Point")
+TMJOB1_Score=unique(train[,c("TMJOB1_bin","TMJOB1_points")])
+names(TMJOB1_Score)=c("TMJOB1","Point")
+################# Score Card ###################
+
+```
+
+![Scorecard](/Users/mingming/Documents/GitHub/Scorecard/ScoreCardFinal.png)
+
+## Score distribution
+```{r}
+cutpoints <- unique(quantile(accepts_scored_comb$Score, probs = seq(0,1,0.1),na.rm=TRUE))
+accepts_scored_comb$Score.QBin <- cut(accepts_scored_comb$Score, breaks=cutpoints, include.lowest=TRUE)
+Default.QBin.pop <- round(table(accepts_scored_comb$Score.QBin, accepts_scored_comb$GB)[,2]/(table(accepts_scored_comb$Score.QBin, accepts_scored_comb$GB)[,2] + table(accepts_scored_comb$Score.QBin, accepts_scored_comb$GB)[,1]*weight_ag)*100,2)
+
+#print(Default.QBin.pop)
+
+barplot(Default.QBin.pop, 
+        main = "Default Decile Plot", 
+        xlab = "Deciles of Scorecard",
+        ylab = "Default Rate (%)", ylim = c(0,20),
+        col = saturation(heat.colors, scalefac(0.8))(10))
+abline(h = 3.23, lwd = 2, lty = "dashed")
+text(9, 4.3, "Current = 3.23%")
+```
+
+## Plotting Default, Acceptance, & Profit By Score #
+```{r,warning=FALSE}
+def <- NULL
+acc <- NULL
+prof <- NULL
+score <- NULL
+
+cost <- 52000
+profit <- 2000
+for(i in min(floor(train$Score)):max(floor(train$Score))){
+  score[i - min(floor(train$Score)) + 1] <- i
+  def[i - min(floor(train$Score)) + 1] <- 100*sum(train$GB[which(train$Score >= i)])/(length(train$GB[which(train$Score >= i & train$GB == 1)]) + weight_ag*length(train$GB[which(train$Score >= i & train$GB == 0)]))
+  acc[i - min(floor(train$Score)) + 1] <- 100*(length(train$GB[which(train$Score >= i & train$GB == 1)]) + weight_ag*length(train$GB[which(train$Score >= i & train$GB == 0)]))/(length(train$GB[which(train$GB == 1)]) + weight_ag*length(train$GB[which(train$GB == 0)]))
+  prof[i - min(floor(train$Score)) + 1] <- length(train$GB[which(train$Score >= i & train$GB == 1)])*(-cost) + weight_ag*length(train$GB[which(train$Score >= i & train$GB == 0)])*profit
+}
+
+plot_data <- data.frame(def, acc, prof, score)
+
+def_plot <- xyplot(def ~ score, plot_data, 
+                   type = "l" , lwd=2, col="red",
+                   ylab = "Default Rate (%)",
+                   xlab = "Score",
+                   xlim=c(400:600),
+                   main = "Default Rate by Acceptance Across Score",
+                   panel = function(x, y,...) {
+                     panel.xyplot(x, y, ...)
+                     panel.abline(h = 3.23, col = "red")
+                   })
+acc_plot <- xyplot(acc ~ score, plot_data, 
+                   type = "l", lwd=2, col="blue",
+                   ylab = "Acceptance Rate (%)",
+                   xlim=c(400:600),
+                   panel = function(x, y,...) {
+                     panel.xyplot(x, y, ...)
+                     panel.abline(h = 75, col = "blue")
+                   })
+prof_plot <- xyplot(prof/1000 ~ score, plot_data, 
+                    type = "l" , lwd=2, col="green",
+                    ylab = "Profit (Thousands $)",
+                    xlab = "Score",
+                    xlim=c(400:600),
+                    main = "Profit by Acceptance Across Score"
+)
+
+doubleYScale(def_plot, acc_plot, add.ylab2 = TRUE, use.style=FALSE)
+doubleYScale(prof_plot, acc_plot, add.ylab2 = TRUE, use.style=FALSE)
+
+
+as.data.frame(lapply(plot_data[abs(plot_data$acc-75)<=4,],mean))
+as.data.frame(plot_data[plot_data$score==472,])
+
+as.data.frame(lapply(plot_data[abs(plot_data$def-3.32)<=0.03,],mean))
+as.data.frame(plot_data[plot_data$score==441,])
+
+```
+
+# PLOT_LY
+```{r,warning=FALSE}
+
+newdata<-plot_data[plot_data$score>=400&plot_data$score<=600,]
+
+score<-newdata$score
+def<-newdata$def
+acc<-newdata$acc
+prof<-newdata$prof
+
+ay1 <- list(
+  title = "Default Rate (%)",
+  range = c(0, 10)
+)
+ay2 <- list(
+  tickfont = list(),
+  range = c(0, 100),
+  overlaying = "y",
+  side = "right",
+  title = "Acceptance Rate (%)"
+)
+fig <- plot_ly()
+fig <- fig %>% add_lines(x = ~score, y = ~def, name = "Default Rate (%)")
+fig <- fig %>% add_lines(x = ~score, y = ~acc, name = "Acceptance Rate (%)", yaxis = "y2")
+fig <- fig %>% layout(
+  title = "Default Rate by Acceptance Across Score", yaxis = ay1, yaxis2 = ay2,
+  xaxis = list(title="Scorecard Value"),
+  legend = list(x = 1.2, y = 0.8)
+)
+
+fig
+
+ay1 <- list(
+  title = "Profit ($)",
+  xlim=c(400:600),
+  showline = FALSE,
+  showgrid = FALSE
+)
+ay2 <- list(
+  tickfont = list(),
+  range = c(0, 100),
+  overlaying = "y",
+  side = "right",
+  xlim=c(400:600),
+  title = "Acceptance Rate (%)"
+)
+fig <- plot_ly()
+fig <- fig %>% add_lines(x = ~score, y = ~prof, name = "Profit ($)")
+fig <- fig %>% add_lines(x = ~score, y = ~acc, name = "Acceptance Rate (%)", yaxis = "y2")
+fig <- fig %>% layout(
+  title = "Profit by Acceptance Across Score", yaxis = ay1, yaxis2 = ay2,
+  xaxis = list(title="Scorecard Value"),
+  legend = list(x = 1.2, y = 0.8)
+)
+
+fig
+```
+
 

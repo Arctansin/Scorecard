@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Build Final Scorecard Model | Financial Scorecard</title>
+  <meta name="description" content="Chapter 4 Build Final Scorecard Model | Financial Scorecard" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Build Final Scorecard Model | Financial Scorecard" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Build Final Scorecard Model | Financial Scorecard" />
+  
+  
+  
+
+<meta name="author" content="Mingming Li" />
+
+
+<meta name="date" content="2022-01-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="reject-inference.html"/>
+<link rel="next" href="plot_ly.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Scorecard</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview</a></li>
+<li class="chapter" data-level="2" data-path="initial-score-card.html"><a href="initial-score-card.html"><i class="fa fa-check"></i><b>2</b> Initial Score Card</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="initial-score-card.html"><a href="initial-score-card.html#exploratory-data-analysis"><i class="fa fa-check"></i><b>2.1</b> Exploratory Data Analysis</a></li>
+<li class="chapter" data-level="2.2" data-path="initial-score-card.html"><a href="initial-score-card.html#variables-selection"><i class="fa fa-check"></i><b>2.2</b> Variables Selection</a></li>
+<li class="chapter" data-level="2.3" data-path="initial-score-card.html"><a href="initial-score-card.html#standardize-continuous-variables"><i class="fa fa-check"></i><b>2.3</b> Standardize Continuous Variables</a></li>
+<li class="chapter" data-level="2.4" data-path="initial-score-card.html"><a href="initial-score-card.html#standardize-categorical-variables"><i class="fa fa-check"></i><b>2.4</b> Standardize Categorical Variables</a></li>
+<li class="chapter" data-level="2.5" data-path="initial-score-card.html"><a href="initial-score-card.html#initial-logistic-regression-model-and-model-selection"><i class="fa fa-check"></i><b>2.5</b> Initial Logistic Regression Model and Model Selection</a></li>
+<li class="chapter" data-level="2.6" data-path="initial-score-card.html"><a href="initial-score-card.html#evaluate-the-initial-model---training-data"><i class="fa fa-check"></i><b>2.6</b> Evaluate the Initial Model - Training Data</a></li>
+<li class="chapter" data-level="2.7" data-path="initial-score-card.html"><a href="initial-score-card.html#evaluate-the-initial-model---testing-data"><i class="fa fa-check"></i><b>2.7</b> Evaluate the Initial Model - Testing Data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="reject-inference.html"><a href="reject-inference.html"><i class="fa fa-check"></i><b>3</b> Reject Inference</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="reject-inference.html"><a href="reject-inference.html#data-cleaning"><i class="fa fa-check"></i><b>3.1</b> Data Cleaning</a></li>
+<li class="chapter" data-level="3.2" data-path="reject-inference.html"><a href="reject-inference.html#predicted-scores"><i class="fa fa-check"></i><b>3.2</b> Predicted Scores</a></li>
+<li class="chapter" data-level="3.3" data-path="reject-inference.html"><a href="reject-inference.html#predicted-default-probability"><i class="fa fa-check"></i><b>3.3</b> Predicted Default Probability</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html"><i class="fa fa-check"></i><b>4</b> Build Final Scorecard Model</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html#build-the-logistic-regression-and-variable-selection"><i class="fa fa-check"></i><b>4.1</b> Build the logistic regression and variable selection</a></li>
+<li class="chapter" data-level="4.2" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html#evaluate-the-initial-model"><i class="fa fa-check"></i><b>4.2</b> Evaluate the Initial Model</a></li>
+<li class="chapter" data-level="4.3" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html#final-scorecard"><i class="fa fa-check"></i><b>4.3</b> Final Scorecard</a></li>
+<li class="chapter" data-level="4.4" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html#score-distribution"><i class="fa fa-check"></i><b>4.4</b> Score distribution</a></li>
+<li class="chapter" data-level="4.5" data-path="build-final-scorecard-model.html"><a href="build-final-scorecard-model.html#plotting-default-acceptance-profit-by-score"><i class="fa fa-check"></i><b>4.5</b> Plotting Default, Acceptance, &amp; Profit By Score</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="plot_ly.html"><a href="plot_ly.html"><i class="fa fa-check"></i><b>5</b> PLOT_LY</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Financial Scorecard</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="build-final-scorecard-model" class="section level1" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Build Final Scorecard Model</h1>
+<ul>
+<li>Data Binning and WOE calculation</li>
+</ul>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="build-final-scorecard-model.html#cb44-1" aria-hidden="true" tabindex="-1"></a>comb <span class="ot">&lt;-</span> comb_hard <span class="co"># Select which data set you want to use from above techniques #</span></span>
+<span id="cb44-2"><a href="build-final-scorecard-model.html#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="build-final-scorecard-model.html#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb44-4"><a href="build-final-scorecard-model.html#cb44-4" aria-hidden="true" tabindex="-1"></a>train_id <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(comb)), <span class="at">size =</span> <span class="fu">floor</span>(<span class="fl">0.7</span><span class="sc">*</span><span class="fu">nrow</span>(comb)))</span>
+<span id="cb44-5"><a href="build-final-scorecard-model.html#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="build-final-scorecard-model.html#cb44-6" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> comb[train_id, ]</span>
+<span id="cb44-7"><a href="build-final-scorecard-model.html#cb44-7" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> comb[<span class="sc">-</span>train_id, ]</span>
+<span id="cb44-8"><a href="build-final-scorecard-model.html#cb44-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="build-final-scorecard-model.html#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="do">## categorical variable -&gt; level&lt;10, or</span></span>
+<span id="cb44-10"><a href="build-final-scorecard-model.html#cb44-10" aria-hidden="true" tabindex="-1"></a>col_unique<span class="ot">&lt;-</span><span class="fu">lapply</span>(<span class="fu">lapply</span>(train,unique),length)</span>
+<span id="cb44-11"><a href="build-final-scorecard-model.html#cb44-11" aria-hidden="true" tabindex="-1"></a>catag_variable<span class="ot">&lt;-</span><span class="fu">names</span>(col_unique[col_unique<span class="sc">&lt;=</span><span class="dv">10</span>])</span>
+<span id="cb44-12"><a href="build-final-scorecard-model.html#cb44-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-13"><a href="build-final-scorecard-model.html#cb44-13" aria-hidden="true" tabindex="-1"></a><span class="co">#2. type=character </span></span>
+<span id="cb44-14"><a href="build-final-scorecard-model.html#cb44-14" aria-hidden="true" tabindex="-1"></a>chara_type<span class="ot">&lt;-</span><span class="fu">lapply</span>(train,typeof)</span>
+<span id="cb44-15"><a href="build-final-scorecard-model.html#cb44-15" aria-hidden="true" tabindex="-1"></a>chara_names<span class="ot">&lt;-</span><span class="fu">names</span>(chara_type[chara_type<span class="sc">==</span><span class="st">&quot;character&quot;</span>])</span>
+<span id="cb44-16"><a href="build-final-scorecard-model.html#cb44-16" aria-hidden="true" tabindex="-1"></a>catag_variable<span class="ot">&lt;-</span><span class="fu">unique</span>(<span class="fu">c</span>(chara_names,catag_variable))</span>
+<span id="cb44-17"><a href="build-final-scorecard-model.html#cb44-17" aria-hidden="true" tabindex="-1"></a>catag_variable<span class="ot">&lt;-</span><span class="fu">subset</span>(catag_variable,<span class="sc">!</span>(catag_variable<span class="sc">%in%</span><span class="fu">c</span>(<span class="st">&quot;good&quot;</span>)))</span>
+<span id="cb44-18"><a href="build-final-scorecard-model.html#cb44-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-19"><a href="build-final-scorecard-model.html#cb44-19" aria-hidden="true" tabindex="-1"></a><span class="co">#continuous variable (not categorical)</span></span>
+<span id="cb44-20"><a href="build-final-scorecard-model.html#cb44-20" aria-hidden="true" tabindex="-1"></a>conti_variable<span class="ot">&lt;-</span><span class="fu">names</span>(train)</span>
+<span id="cb44-21"><a href="build-final-scorecard-model.html#cb44-21" aria-hidden="true" tabindex="-1"></a>conti_variable<span class="ot">&lt;-</span><span class="fu">subset</span>(conti_variable,<span class="sc">!</span>(conti_variable<span class="sc">%in%</span>catag_variable))</span>
+<span id="cb44-22"><a href="build-final-scorecard-model.html#cb44-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-23"><a href="build-final-scorecard-model.html#cb44-23" aria-hidden="true" tabindex="-1"></a><span class="co"># factorize both train and the test</span></span>
+<span id="cb44-24"><a href="build-final-scorecard-model.html#cb44-24" aria-hidden="true" tabindex="-1"></a>train[,catag_variable]<span class="ot">=</span><span class="fu">lapply</span>(train[,catag_variable],as.factor)</span>
+<span id="cb44-25"><a href="build-final-scorecard-model.html#cb44-25" aria-hidden="true" tabindex="-1"></a><span class="co">#str(train)</span></span>
+<span id="cb44-26"><a href="build-final-scorecard-model.html#cb44-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-27"><a href="build-final-scorecard-model.html#cb44-27" aria-hidden="true" tabindex="-1"></a>test[,catag_variable]<span class="ot">=</span><span class="fu">lapply</span>(test[,catag_variable],as.factor)</span>
+<span id="cb44-28"><a href="build-final-scorecard-model.html#cb44-28" aria-hidden="true" tabindex="-1"></a><span class="co">#str(test)</span></span>
+<span id="cb44-29"><a href="build-final-scorecard-model.html#cb44-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-30"><a href="build-final-scorecard-model.html#cb44-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Binning continuous variable </span></span>
+<span id="cb44-31"><a href="build-final-scorecard-model.html#cb44-31" aria-hidden="true" tabindex="-1"></a>result_con <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb44-32"><a href="build-final-scorecard-model.html#cb44-32" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(conti_variable)){</span>
+<span id="cb44-33"><a href="build-final-scorecard-model.html#cb44-33" aria-hidden="true" tabindex="-1"></a>  result_con[[conti_variable[i]]] <span class="ot">&lt;-</span> <span class="fu">smbinning</span>(<span class="at">df =</span> train, <span class="at">y =</span> <span class="st">&quot;good&quot;</span>, <span class="at">x =</span> conti_variable[i])</span>
+<span id="cb44-34"><a href="build-final-scorecard-model.html#cb44-34" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="build-final-scorecard-model.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">smbinning.sumiv.plot</span>(iv_summary)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="build-final-scorecard-model.html#cb46-1" aria-hidden="true" tabindex="-1"></a>key_variable<span class="ot">&lt;-</span>iv_summary<span class="sc">$</span>Char[iv_summary<span class="sc">$</span>IV<span class="sc">&gt;=</span><span class="fl">0.1</span><span class="sc">&amp;</span><span class="fu">is.na</span>(iv_summary<span class="sc">$</span>IV)<span class="sc">==</span><span class="cn">FALSE</span>]</span>
+<span id="cb46-2"><a href="build-final-scorecard-model.html#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="build-final-scorecard-model.html#cb46-3" aria-hidden="true" tabindex="-1"></a>results<span class="ot">&lt;-</span><span class="fu">c</span>(result_con)</span>
+<span id="cb46-4"><a href="build-final-scorecard-model.html#cb46-4" aria-hidden="true" tabindex="-1"></a>result_all_sig<span class="ot">&lt;-</span>results[key_variable]</span>
+<span id="cb46-5"><a href="build-final-scorecard-model.html#cb46-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-6"><a href="build-final-scorecard-model.html#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>)) {</span>
+<span id="cb46-7"><a href="build-final-scorecard-model.html#cb46-7" aria-hidden="true" tabindex="-1"></a>  train <span class="ot">&lt;-</span> <span class="fu">smbinning.gen</span>(<span class="at">df =</span> train, <span class="at">ivout =</span> result_all_sig[[i]], <span class="at">chrname =</span> <span class="fu">paste</span>(result_all_sig[[i]]<span class="sc">$</span>x, <span class="st">&quot;_bin&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>))</span>
+<span id="cb46-8"><a href="build-final-scorecard-model.html#cb46-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb46-9"><a href="build-final-scorecard-model.html#cb46-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-10"><a href="build-final-scorecard-model.html#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>)) {</span>
+<span id="cb46-11"><a href="build-final-scorecard-model.html#cb46-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(train)) {</span>
+<span id="cb46-12"><a href="build-final-scorecard-model.html#cb46-12" aria-hidden="true" tabindex="-1"></a>    bin_name <span class="ot">&lt;-</span> <span class="fu">paste</span>(result_all_sig[[j]]<span class="sc">$</span>x, <span class="st">&quot;_bin&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb46-13"><a href="build-final-scorecard-model.html#cb46-13" aria-hidden="true" tabindex="-1"></a>    bin <span class="ot">&lt;-</span> <span class="fu">substr</span>(train[[bin_name]][i], <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb46-14"><a href="build-final-scorecard-model.html#cb46-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb46-15"><a href="build-final-scorecard-model.html#cb46-15" aria-hidden="true" tabindex="-1"></a>    woe_name <span class="ot">&lt;-</span> <span class="fu">paste</span>(result_all_sig[[j]]<span class="sc">$</span>x, <span class="st">&quot;_WOE&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb46-16"><a href="build-final-scorecard-model.html#cb46-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb46-17"><a href="build-final-scorecard-model.html#cb46-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(bin <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb46-18"><a href="build-final-scorecard-model.html#cb46-18" aria-hidden="true" tabindex="-1"></a>      bin <span class="ot">&lt;-</span> <span class="fu">dim</span>(result_all_sig[[j]]<span class="sc">$</span>ivtable)[<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb46-19"><a href="build-final-scorecard-model.html#cb46-19" aria-hidden="true" tabindex="-1"></a>      train[[woe_name]][i] <span class="ot">&lt;-</span> result_all_sig[[j]]<span class="sc">$</span>ivtable[bin, <span class="st">&quot;WoE&quot;</span>]</span>
+<span id="cb46-20"><a href="build-final-scorecard-model.html#cb46-20" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb46-21"><a href="build-final-scorecard-model.html#cb46-21" aria-hidden="true" tabindex="-1"></a>      train[[woe_name]][i] <span class="ot">&lt;-</span> result_all_sig[[j]]<span class="sc">$</span>ivtable[bin, <span class="st">&quot;WoE&quot;</span>]</span>
+<span id="cb46-22"><a href="build-final-scorecard-model.html#cb46-22" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb46-23"><a href="build-final-scorecard-model.html#cb46-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb46-24"><a href="build-final-scorecard-model.html#cb46-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb46-25"><a href="build-final-scorecard-model.html#cb46-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-26"><a href="build-final-scorecard-model.html#cb46-26" aria-hidden="true" tabindex="-1"></a><span class="co">#Below is useful for checking data cleaning process</span></span>
+<span id="cb46-27"><a href="build-final-scorecard-model.html#cb46-27" aria-hidden="true" tabindex="-1"></a><span class="co">#lapply(lapply(train[,key_variable[c(2,3,5)]],is.na),sum)</span></span>
+<span id="cb46-28"><a href="build-final-scorecard-model.html#cb46-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-29"><a href="build-final-scorecard-model.html#cb46-29" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the WOE</span></span>
+<span id="cb46-30"><a href="build-final-scorecard-model.html#cb46-30" aria-hidden="true" tabindex="-1"></a>train<span class="sc">$</span>good<span class="ot">&lt;-</span><span class="fu">as.factor</span>(train<span class="sc">$</span>good)</span>
+<span id="cb46-31"><a href="build-final-scorecard-model.html#cb46-31" aria-hidden="true" tabindex="-1"></a>woemodel <span class="ot">&lt;-</span> <span class="fu">woe</span>(good<span class="sc">~</span>., <span class="at">data =</span> train, <span class="at">zeroadj=</span><span class="fl">0.005</span>, <span class="at">applyontrain =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## At least one empty cell (class x level) does exists. Zero adjustment applied!
+## At least one empty cell (class x level) does exists. Zero adjustment applied!
+## At least one empty cell (class x level) does exists. Zero adjustment applied!
+## At least one empty cell (class x level) does exists. Zero adjustment applied!
+## At least one empty cell (class x level) does exists. Zero adjustment applied!
+## At least one empty cell (class x level) does exists. Zero adjustment applied!
+## At least one empty cell (class x level) does exists. Zero adjustment applied!</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="build-final-scorecard-model.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="do">## apply woes </span></span>
+<span id="cb48-2"><a href="build-final-scorecard-model.html#cb48-2" aria-hidden="true" tabindex="-1"></a>traindata <span class="ot">&lt;-</span> <span class="fu">predict</span>(woemodel, train, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## No woe model for variable(s): good</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="build-final-scorecard-model.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#str(traindata)</span></span>
+<span id="cb50-2"><a href="build-final-scorecard-model.html#cb50-2" aria-hidden="true" tabindex="-1"></a>train<span class="ot">=</span><span class="fu">cbind</span>(train,traindata[,<span class="fu">c</span>(<span class="st">&quot;woe_CARDS&quot;</span>,<span class="st">&quot;woe_PERS_H&quot;</span>,<span class="st">&quot;woe_EC_CARD&quot;</span>)])</span>
+<span id="cb50-3"><a href="build-final-scorecard-model.html#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="build-final-scorecard-model.html#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="do">############################## mapling table for the categorical woe ##############################</span></span>
+<span id="cb50-5"><a href="build-final-scorecard-model.html#cb50-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-6"><a href="build-final-scorecard-model.html#cb50-6" aria-hidden="true" tabindex="-1"></a>cate1<span class="ot">=</span><span class="fu">unique</span>(train[,<span class="fu">c</span>(<span class="st">&quot;CARDS&quot;</span>,<span class="st">&quot;woe_CARDS&quot;</span>)])</span>
+<span id="cb50-7"><a href="build-final-scorecard-model.html#cb50-7" aria-hidden="true" tabindex="-1"></a>cate2<span class="ot">=</span><span class="fu">unique</span>(train[,<span class="fu">c</span>(<span class="st">&quot;PERS_H&quot;</span>,<span class="st">&quot;woe_PERS_H&quot;</span>)])</span>
+<span id="cb50-8"><a href="build-final-scorecard-model.html#cb50-8" aria-hidden="true" tabindex="-1"></a>cate3<span class="ot">=</span><span class="fu">unique</span>(train[,<span class="fu">c</span>(<span class="st">&quot;EC_CARD&quot;</span>,<span class="st">&quot;woe_EC_CARD&quot;</span>)])</span>
+<span id="cb50-9"><a href="build-final-scorecard-model.html#cb50-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-10"><a href="build-final-scorecard-model.html#cb50-10" aria-hidden="true" tabindex="-1"></a><span class="do">####################################################################################################</span></span>
+<span id="cb50-11"><a href="build-final-scorecard-model.html#cb50-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-12"><a href="build-final-scorecard-model.html#cb50-12" aria-hidden="true" tabindex="-1"></a>train<span class="sc">$</span>weight_ar<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(<span class="fu">as.character</span>(train<span class="sc">$</span>weight_ar))</span></code></pre></div>
+<div id="build-the-logistic-regression-and-variable-selection" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Build the logistic regression and variable selection</h2>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="build-final-scorecard-model.html#cb51-1" aria-hidden="true" tabindex="-1"></a>initial_score <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">data =</span> train, GB <span class="sc">~</span>  </span>
+<span id="cb51-2"><a href="build-final-scorecard-model.html#cb51-2" aria-hidden="true" tabindex="-1"></a>                       TMJOB1_WOE <span class="sc">+</span> INCOME_WOE<span class="sc">+</span></span>
+<span id="cb51-3"><a href="build-final-scorecard-model.html#cb51-3" aria-hidden="true" tabindex="-1"></a>                        woe_CARDS<span class="sc">+</span>woe_PERS_H<span class="sc">+</span>woe_EC_CARD</span>
+<span id="cb51-4"><a href="build-final-scorecard-model.html#cb51-4" aria-hidden="true" tabindex="-1"></a>                     , <span class="at">weights =</span>weight_ar,<span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb51-5"><a href="build-final-scorecard-model.html#cb51-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-6"><a href="build-final-scorecard-model.html#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(initial_score)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = GB ~ TMJOB1_WOE + INCOME_WOE + woe_CARDS + woe_PERS_H + 
+##     woe_EC_CARD, family = &quot;binomial&quot;, data = train, weights = weight_ar)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -5.115  -1.151   1.997   2.662   4.427  
+## 
+## Coefficients:
+##             Estimate Std. Error  z value             Pr(&gt;|z|)    
+## (Intercept) -3.19686    0.02395 -133.491 &lt; 0.0000000000000002 ***
+## TMJOB1_WOE  -0.87136    0.03355  -25.970 &lt; 0.0000000000000002 ***
+## INCOME_WOE  -0.20747    0.05761   -3.601             0.000317 ***
+## woe_CARDS    1.04236    0.12078    8.630 &lt; 0.0000000000000002 ***
+## woe_PERS_H   0.79047    0.03708   21.318 &lt; 0.0000000000000002 ***
+## woe_EC_CARD -0.18214    0.13127   -1.388             0.165270    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 19394  on 3149  degrees of freedom
+## Residual deviance: 17138  on 3144  degrees of freedom
+## AIC: 20286
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<ul>
+<li>Variable Selected Logistic Regression</li>
+</ul>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="build-final-scorecard-model.html#cb53-1" aria-hidden="true" tabindex="-1"></a>initial_score_red <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">data =</span> train, GB <span class="sc">~</span>  </span>
+<span id="cb53-2"><a href="build-final-scorecard-model.html#cb53-2" aria-hidden="true" tabindex="-1"></a>                           TMJOB1_WOE <span class="sc">+</span> </span>
+<span id="cb53-3"><a href="build-final-scorecard-model.html#cb53-3" aria-hidden="true" tabindex="-1"></a>                           woe_CARDS<span class="sc">+</span>woe_PERS_H</span>
+<span id="cb53-4"><a href="build-final-scorecard-model.html#cb53-4" aria-hidden="true" tabindex="-1"></a>                         , <span class="at">weights =</span>weight_ar,<span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb53-5"><a href="build-final-scorecard-model.html#cb53-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-6"><a href="build-final-scorecard-model.html#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(initial_score_red)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = GB ~ TMJOB1_WOE + woe_CARDS + woe_PERS_H, family = &quot;binomial&quot;, 
+##     data = train, weights = weight_ar)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -4.956  -1.162   1.992   2.663   4.365  
+## 
+## Coefficients:
+##             Estimate Std. Error z value            Pr(&gt;|z|)    
+## (Intercept) -3.19627    0.02391 -133.66 &lt;0.0000000000000002 ***
+## TMJOB1_WOE  -0.89123    0.03301  -27.00 &lt;0.0000000000000002 ***
+## woe_CARDS    1.02451    0.04100   24.99 &lt;0.0000000000000002 ***
+## woe_PERS_H   0.80044    0.03724   21.50 &lt;0.0000000000000002 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 19394  on 3149  degrees of freedom
+## Residual deviance: 17151  on 3146  degrees of freedom
+## AIC: 20293
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+</div>
+<div id="evaluate-the-initial-model" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Evaluate the Initial Model</h2>
+<ul>
+<li>Training Data
+<ol style="list-style-type: decimal">
+<li>KS - &gt; best cut off 0.04327352</li>
+<li>ROC</li>
+</ol></li>
+</ul>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="build-final-scorecard-model.html#cb55-1" aria-hidden="true" tabindex="-1"></a>train<span class="sc">$</span>pred<span class="ot">=</span><span class="fu">predict</span>(initial_score_red,<span class="at">data=</span>train,<span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb55-2"><a href="build-final-scorecard-model.html#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="build-final-scorecard-model.html#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="co">#train[is.na(train$weight_ar),]</span></span>
+<span id="cb55-4"><a href="build-final-scorecard-model.html#cb55-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-5"><a href="build-final-scorecard-model.html#cb55-5" aria-hidden="true" tabindex="-1"></a>train<span class="sc">$</span>GB<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(<span class="fu">as.character</span>(train<span class="sc">$</span>GB))</span>
+<span id="cb55-6"><a href="build-final-scorecard-model.html#cb55-6" aria-hidden="true" tabindex="-1"></a>train<span class="sc">$</span>good<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(<span class="fu">as.character</span>(train<span class="sc">$</span>good))</span>
+<span id="cb55-7"><a href="build-final-scorecard-model.html#cb55-7" aria-hidden="true" tabindex="-1"></a><span class="fu">smbinning.metrics</span>(<span class="at">dataset =</span> train, <span class="at">prediction =</span> <span class="st">&quot;pred&quot;</span>, <span class="at">actualclass =</span> <span class="st">&quot;GB&quot;</span>, <span class="at">report =</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## 
+##   Overall Performance Metrics 
+##   -------------------------------------------------- 
+##                     KS : 0.4908 (Good)
+##                    AUC : 0.7948 (Fair)
+## 
+##   Classification Matrix 
+##   -------------------------------------------------- 
+##            Cutoff (&gt;=) : 0.0433 (Optimal)
+##    True Positives (TP) : 1345
+##   False Positives (FP) : 380
+##   False Negatives (FN) : 415
+##    True Negatives (TN) : 1010
+##    Total Positives (P) : 1760
+##    Total Negatives (N) : 1390
+## 
+##   Business/Performance Metrics 
+##   -------------------------------------------------- 
+##       %Records&gt;=Cutoff : 0.5476
+##              Good Rate : 0.7797 (Vs 0.5587 Overall)
+##               Bad Rate : 0.2203 (Vs 0.4413 Overall)
+##         Accuracy (ACC) : 0.7476
+##      Sensitivity (TPR) : 0.7642
+##  False Neg. Rate (FNR) : 0.2358
+##  False Pos. Rate (FPR) : 0.2734
+##      Specificity (TNR) : 0.7266
+##        Precision (PPV) : 0.7797
+##   False Discovery Rate : 0.2203
+##     False Omision Rate : 0.2912
+##   Inv. Precision (NPV) : 0.7088
+## 
+##   Note: 0 rows deleted due to missing data.</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="build-final-scorecard-model.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">smbinning.metrics</span>(<span class="at">dataset =</span> train[train<span class="sc">$</span>pred<span class="sc">&lt;=</span><span class="fl">0.4</span>,], <span class="at">prediction =</span> <span class="st">&quot;pred&quot;</span>, <span class="at">actualclass =</span> <span class="st">&quot;GB&quot;</span>, <span class="at">report =</span> <span class="dv">0</span>, <span class="at">plot =</span> <span class="st">&quot;ks&quot;</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="build-final-scorecard-model.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">smbinning.metrics</span>(<span class="at">dataset =</span> train, <span class="at">prediction =</span> <span class="st">&quot;pred&quot;</span>, <span class="at">actualclass =</span> <span class="st">&quot;GB&quot;</span>, <span class="at">report =</span> <span class="dv">0</span>, <span class="at">plot =</span> <span class="st">&quot;auc&quot;</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-24-2.png" width="672" /></p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="build-final-scorecard-model.html#cb59-1" aria-hidden="true" tabindex="-1"></a>pred<span class="ot">&lt;-</span><span class="fu">prediction</span>(<span class="fu">fitted</span>(initial_score_red),<span class="fu">factor</span>(train<span class="sc">$</span>GB))</span>
+<span id="cb59-2"><a href="build-final-scorecard-model.html#cb59-2" aria-hidden="true" tabindex="-1"></a>perf<span class="ot">&lt;-</span><span class="fu">performance</span>(pred,<span class="at">measure=</span><span class="st">&quot;tpr&quot;</span>,<span class="at">x.measure=</span><span class="st">&quot;fpr&quot;</span>)</span>
+<span id="cb59-3"><a href="build-final-scorecard-model.html#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(perf,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">colorsize=</span><span class="cn">TRUE</span>,<span class="at">colorkey=</span><span class="cn">TRUE</span>,<span class="at">colorsize.palette=</span><span class="fu">rev</span>(<span class="fu">gray.colors</span>(<span class="dv">256</span>)))</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-24-3.png" width="672" /></p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="build-final-scorecard-model.html#cb60-1" aria-hidden="true" tabindex="-1"></a>KS<span class="ot">&lt;-</span><span class="fu">max</span>(perf<span class="sc">@</span>y.values[[<span class="dv">1</span>]]<span class="sc">-</span>perf<span class="sc">@</span>x.values[[<span class="dv">1</span>]])</span>
+<span id="cb60-2"><a href="build-final-scorecard-model.html#cb60-2" aria-hidden="true" tabindex="-1"></a>cutoffAtKS<span class="ot">&lt;-</span><span class="fu">unlist</span>(perf<span class="sc">@</span>alpha.values)[<span class="fu">which.max</span>(perf<span class="sc">@</span>y.values[[<span class="dv">1</span>]]<span class="sc">-</span>perf<span class="sc">@</span>x.values[[<span class="dv">1</span>]])]</span>
+<span id="cb60-3"><a href="build-final-scorecard-model.html#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">c</span>(KS,cutoffAtKS))</span></code></pre></div>
+<pre><code>## [1] 0.49082325 0.04327352</code></pre>
+<ul>
+<li>Testing Data</li>
+</ul>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="build-final-scorecard-model.html#cb62-1" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> comb[<span class="sc">-</span>train_id, ]</span>
+<span id="cb62-2"><a href="build-final-scorecard-model.html#cb62-2" aria-hidden="true" tabindex="-1"></a>test[,catag_variable]<span class="ot">=</span><span class="fu">lapply</span>(test[,catag_variable],as.factor)</span>
+<span id="cb62-3"><a href="build-final-scorecard-model.html#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(test)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    1350 obs. of  21 variables:
+##  $ PERS_H   : Factor w/ 9 levels &quot;1&quot;,&quot;10&quot;,&quot;2&quot;,&quot;3&quot;,..: 3 3 1 3 3 3 3 3 3 1 ...
+##  $ TMADD    : int  3 60 72 168 192 240 264 288 360 999 ...
+##  $ TMJOB1   : int  999 999 999 999 999 999 999 999 999 999 ...
+##  $ TEL      : Factor w/ 3 levels &quot;0&quot;,&quot;1&quot;,&quot;2&quot;: 3 3 3 3 2 2 3 3 3 3 ...
+##  $ NMBLOAN  : Factor w/ 3 levels &quot;0&quot;,&quot;1&quot;,&quot;2&quot;: 1 3 3 1 1 1 3 1 1 3 ...
+##  $ FINLOAN  : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 1 1 1 1 1 1 2 1 2 2 ...
+##  $ INCOME   : int  1000 2900 2300 0 0 2100 0 0 3000 0 ...
+##  $ EC_CARD  : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 2 1 1 1 2 1 2 2 1 2 ...
+##  $ BUREAU   : Factor w/ 3 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;: 1 1 1 1 3 1 1 1 3 1 ...
+##  $ LOCATION : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 2 2 2 2 2 2 2 2 2 2 ...
+##  $ LOANS    : Factor w/ 11 levels &quot;0&quot;,&quot;1&quot;,&quot;10&quot;,&quot;2&quot;,..: 4 2 2 2 1 2 2 2 1 2 ...
+##  $ REGN     : Factor w/ 9 levels &quot;0&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 2 2 1 1 1 1 2 1 3 1 ...
+##  $ CASH     : int  1300 900 1100 1900 1100 8000 1400 800 7000 3000 ...
+##  $ PRODUCT  : Factor w/ 9 levels &quot;&quot;,&quot;Cars&quot;,&quot;Dept. Store or Mail&quot;,..: 5 5 8 3 5 2 8 3 5 5 ...
+##  $ RESID    : Factor w/ 3 levels &quot;&quot;,&quot;Lease&quot;,&quot;Owner&quot;: 2 3 2 2 2 2 2 2 3 2 ...
+##  $ PROF     : Factor w/ 14 levels &quot;&quot;,&quot;Chemical Industr&quot;,..: 8 8 8 8 3 8 3 8 8 8 ...
+##  $ CAR      : Factor w/ 4 levels &quot;Car&quot;,&quot;Car and Motor bi&quot;,..: 1 1 4 1 1 1 1 1 1 4 ...
+##  $ CARDS    : Factor w/ 6 levels &quot;Cheque card&quot;,..: 1 3 3 2 1 3 1 1 3 1 ...
+##  $ GB       : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ good     : num  1 1 1 1 1 1 1 1 1 1 ...
+##  $ weight_ar: Factor w/ 4 levels &quot;1&quot;,&quot;1.5&quot;,&quot;29.9597523219814&quot;,..: 4 4 4 4 4 4 4 4 4 4 ...</code></pre>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="build-final-scorecard-model.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1</span>) {</span>
+<span id="cb64-2"><a href="build-final-scorecard-model.html#cb64-2" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> <span class="fu">smbinning.gen</span>(<span class="at">df =</span> test, <span class="at">ivout =</span> result_all_sig[[i]], <span class="at">chrname =</span> <span class="fu">paste</span>(result_all_sig[[i]]<span class="sc">$</span>x, <span class="st">&quot;_bin&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>))</span>
+<span id="cb64-3"><a href="build-final-scorecard-model.html#cb64-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb64-4"><a href="build-final-scorecard-model.html#cb64-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-5"><a href="build-final-scorecard-model.html#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1</span>) {</span>
+<span id="cb64-6"><a href="build-final-scorecard-model.html#cb64-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(test)) {</span>
+<span id="cb64-7"><a href="build-final-scorecard-model.html#cb64-7" aria-hidden="true" tabindex="-1"></a>    bin_name <span class="ot">&lt;-</span> <span class="fu">paste</span>(result_all_sig[[j]]<span class="sc">$</span>x, <span class="st">&quot;_bin&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb64-8"><a href="build-final-scorecard-model.html#cb64-8" aria-hidden="true" tabindex="-1"></a>    bin <span class="ot">&lt;-</span> <span class="fu">substr</span>(test[[bin_name]][i], <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb64-9"><a href="build-final-scorecard-model.html#cb64-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb64-10"><a href="build-final-scorecard-model.html#cb64-10" aria-hidden="true" tabindex="-1"></a>    woe_name <span class="ot">&lt;-</span> <span class="fu">paste</span>(result_all_sig[[j]]<span class="sc">$</span>x, <span class="st">&quot;_WOE&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb64-11"><a href="build-final-scorecard-model.html#cb64-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb64-12"><a href="build-final-scorecard-model.html#cb64-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(bin <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb64-13"><a href="build-final-scorecard-model.html#cb64-13" aria-hidden="true" tabindex="-1"></a>      bin <span class="ot">&lt;-</span> <span class="fu">dim</span>(result_all_sig[[j]]<span class="sc">$</span>ivtable)[<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb64-14"><a href="build-final-scorecard-model.html#cb64-14" aria-hidden="true" tabindex="-1"></a>      test[[woe_name]][i] <span class="ot">&lt;-</span> result_all_sig[[j]]<span class="sc">$</span>ivtable[bin, <span class="st">&quot;WoE&quot;</span>]</span>
+<span id="cb64-15"><a href="build-final-scorecard-model.html#cb64-15" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb64-16"><a href="build-final-scorecard-model.html#cb64-16" aria-hidden="true" tabindex="-1"></a>      test[[woe_name]][i] <span class="ot">&lt;-</span> result_all_sig[[j]]<span class="sc">$</span>ivtable[bin, <span class="st">&quot;WoE&quot;</span>]</span>
+<span id="cb64-17"><a href="build-final-scorecard-model.html#cb64-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb64-18"><a href="build-final-scorecard-model.html#cb64-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb64-19"><a href="build-final-scorecard-model.html#cb64-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb64-20"><a href="build-final-scorecard-model.html#cb64-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-21"><a href="build-final-scorecard-model.html#cb64-21" aria-hidden="true" tabindex="-1"></a>test<span class="sc">$</span>good<span class="ot">&lt;-</span><span class="fu">as.factor</span>(test<span class="sc">$</span>good)</span>
+<span id="cb64-22"><a href="build-final-scorecard-model.html#cb64-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-23"><a href="build-final-scorecard-model.html#cb64-23" aria-hidden="true" tabindex="-1"></a><span class="do">########## categorical ####################################</span></span>
+<span id="cb64-24"><a href="build-final-scorecard-model.html#cb64-24" aria-hidden="true" tabindex="-1"></a>test<span class="ot">&lt;-</span><span class="fu">merge</span>(test,cate1,<span class="at">by=</span><span class="st">&quot;CARDS&quot;</span>,<span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb64-25"><a href="build-final-scorecard-model.html#cb64-25" aria-hidden="true" tabindex="-1"></a>test<span class="ot">&lt;-</span><span class="fu">merge</span>(test,cate2,<span class="at">by=</span><span class="st">&quot;PERS_H&quot;</span>,<span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb64-26"><a href="build-final-scorecard-model.html#cb64-26" aria-hidden="true" tabindex="-1"></a><span class="do">########## categorical ####################################</span></span>
+<span id="cb64-27"><a href="build-final-scorecard-model.html#cb64-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-28"><a href="build-final-scorecard-model.html#cb64-28" aria-hidden="true" tabindex="-1"></a>test<span class="sc">$</span>good<span class="ot">=</span><span class="fu">as.numeric</span>(<span class="fu">as.character</span>(test<span class="sc">$</span>good))</span>
+<span id="cb64-29"><a href="build-final-scorecard-model.html#cb64-29" aria-hidden="true" tabindex="-1"></a>test<span class="sc">$</span>GB<span class="ot">=</span><span class="fu">as.numeric</span>(<span class="fu">as.character</span>(test<span class="sc">$</span>GB))</span>
+<span id="cb64-30"><a href="build-final-scorecard-model.html#cb64-30" aria-hidden="true" tabindex="-1"></a>test<span class="sc">$</span>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(initial_score_red, <span class="at">newdata=</span>test, <span class="at">type=</span><span class="st">&#39;response&#39;</span>)</span>
+<span id="cb64-31"><a href="build-final-scorecard-model.html#cb64-31" aria-hidden="true" tabindex="-1"></a><span class="fu">smbinning.metrics</span>(<span class="at">dataset =</span> test, <span class="at">prediction =</span> <span class="st">&quot;pred&quot;</span>, <span class="at">actualclass =</span> <span class="st">&quot;GB&quot;</span>, <span class="at">report =</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## 
+##   Overall Performance Metrics 
+##   -------------------------------------------------- 
+##                     KS : 0.4880 (Good)
+##                    AUC : 0.7752 (Fair)
+## 
+##   Classification Matrix 
+##   -------------------------------------------------- 
+##            Cutoff (&gt;=) : 0.0333 (Optimal)
+##    True Positives (TP) : 608
+##   False Positives (FP) : 181
+##   False Negatives (FN) : 155
+##    True Negatives (TN) : 405
+##    Total Positives (P) : 763
+##    Total Negatives (N) : 586
+## 
+##   Business/Performance Metrics 
+##   -------------------------------------------------- 
+##       %Records&gt;=Cutoff : 0.5849
+##              Good Rate : 0.7706 (Vs 0.5656 Overall)
+##               Bad Rate : 0.2294 (Vs 0.4344 Overall)
+##         Accuracy (ACC) : 0.7509
+##      Sensitivity (TPR) : 0.7969
+##  False Neg. Rate (FNR) : 0.2031
+##  False Pos. Rate (FPR) : 0.3089
+##      Specificity (TNR) : 0.6911
+##        Precision (PPV) : 0.7706
+##   False Discovery Rate : 0.2294
+##     False Omision Rate : 0.2768
+##   Inv. Precision (NPV) : 0.7232
+## 
+##   Note: 1 rows deleted due to missing data.</code></pre>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="build-final-scorecard-model.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">smbinning.metrics</span>(<span class="at">dataset =</span> test[test<span class="sc">$</span>pred<span class="sc">&lt;=</span><span class="fl">0.4</span>,], <span class="at">prediction =</span> <span class="st">&quot;pred&quot;</span>, <span class="at">actualclass =</span> <span class="st">&quot;GB&quot;</span>, <span class="at">report =</span> <span class="dv">1</span>, <span class="at">plot =</span> <span class="st">&quot;ks&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##   Overall Performance Metrics 
+##   -------------------------------------------------- 
+##                     KS : 0.4901 (Good)
+##                    AUC : 0.7770 (Fair)
+## 
+##   Classification Matrix 
+##   -------------------------------------------------- 
+##            Cutoff (&gt;=) : 0.0333 (Optimal)
+##    True Positives (TP) : 607
+##   False Positives (FP) : 179
+##   False Negatives (FN) : 155
+##    True Negatives (TN) : 405
+##    Total Positives (P) : 762
+##    Total Negatives (N) : 584
+## 
+##   Business/Performance Metrics 
+##   -------------------------------------------------- 
+##       %Records&gt;=Cutoff : 0.5840
+##              Good Rate : 0.7723 (Vs 0.5661 Overall)
+##               Bad Rate : 0.2277 (Vs 0.4339 Overall)
+##         Accuracy (ACC) : 0.7519
+##      Sensitivity (TPR) : 0.7966
+##  False Neg. Rate (FNR) : 0.2034
+##  False Pos. Rate (FPR) : 0.3065
+##      Specificity (TNR) : 0.6935
+##        Precision (PPV) : 0.7723
+##   False Discovery Rate : 0.2277
+##     False Omision Rate : 0.2768
+##   Inv. Precision (NPV) : 0.7232
+## 
+##   Note: 1 rows deleted due to missing data.</code></pre>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="build-final-scorecard-model.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">smbinning.metrics</span>(<span class="at">dataset =</span> test, <span class="at">prediction =</span> <span class="st">&quot;pred&quot;</span>, <span class="at">actualclass =</span> <span class="st">&quot;GB&quot;</span>, <span class="at">report =</span> <span class="dv">0</span>, <span class="at">plot =</span> <span class="st">&quot;auc&quot;</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-25-2.png" width="672" /></p>
+</div>
+<div id="final-scorecard" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Final Scorecard</h2>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="build-final-scorecard-model.html#cb69-1" aria-hidden="true" tabindex="-1"></a>final_score<span class="ot">&lt;-</span>initial_score_red</span>
+<span id="cb69-2"><a href="build-final-scorecard-model.html#cb69-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-3"><a href="build-final-scorecard-model.html#cb69-3" aria-hidden="true" tabindex="-1"></a>pdo <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb69-4"><a href="build-final-scorecard-model.html#cb69-4" aria-hidden="true" tabindex="-1"></a>score <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb69-5"><a href="build-final-scorecard-model.html#cb69-5" aria-hidden="true" tabindex="-1"></a>odds <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb69-6"><a href="build-final-scorecard-model.html#cb69-6" aria-hidden="true" tabindex="-1"></a>fact <span class="ot">&lt;-</span> pdo<span class="sc">/</span><span class="fu">log</span>(<span class="dv">2</span>)</span>
+<span id="cb69-7"><a href="build-final-scorecard-model.html#cb69-7" aria-hidden="true" tabindex="-1"></a>os <span class="ot">&lt;-</span> score <span class="sc">-</span> fact<span class="sc">*</span><span class="fu">log</span>(odds)</span>
+<span id="cb69-8"><a href="build-final-scorecard-model.html#cb69-8" aria-hidden="true" tabindex="-1"></a>var_names <span class="ot">&lt;-</span> <span class="fu">names</span>(final_score<span class="sc">$</span>coefficients[<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb69-9"><a href="build-final-scorecard-model.html#cb69-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-10"><a href="build-final-scorecard-model.html#cb69-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> var_names) {</span>
+<span id="cb69-11"><a href="build-final-scorecard-model.html#cb69-11" aria-hidden="true" tabindex="-1"></a>  beta <span class="ot">&lt;-</span> final_score<span class="sc">$</span>coefficients[i]</span>
+<span id="cb69-12"><a href="build-final-scorecard-model.html#cb69-12" aria-hidden="true" tabindex="-1"></a>  beta0 <span class="ot">&lt;-</span> final_score<span class="sc">$</span>coefficients[<span class="st">&quot;(Intercept)&quot;</span>]</span>
+<span id="cb69-13"><a href="build-final-scorecard-model.html#cb69-13" aria-hidden="true" tabindex="-1"></a>  nvar <span class="ot">&lt;-</span> <span class="fu">length</span>(var_names)</span>
+<span id="cb69-14"><a href="build-final-scorecard-model.html#cb69-14" aria-hidden="true" tabindex="-1"></a>  WOE_var <span class="ot">&lt;-</span> train[[i]]</span>
+<span id="cb69-15"><a href="build-final-scorecard-model.html#cb69-15" aria-hidden="true" tabindex="-1"></a>  points_name <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">str_sub</span>(i, <span class="at">end =</span> <span class="sc">-</span><span class="dv">4</span>), <span class="st">&quot;points&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb69-16"><a href="build-final-scorecard-model.html#cb69-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb69-17"><a href="build-final-scorecard-model.html#cb69-17" aria-hidden="true" tabindex="-1"></a>  train[[points_name]] <span class="ot">&lt;-</span> <span class="sc">-</span>(WOE_var<span class="sc">*</span>(beta) <span class="sc">+</span> (beta0<span class="sc">/</span>nvar))<span class="sc">*</span>fact <span class="sc">+</span> os<span class="sc">/</span>nvar</span>
+<span id="cb69-18"><a href="build-final-scorecard-model.html#cb69-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb69-19"><a href="build-final-scorecard-model.html#cb69-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-20"><a href="build-final-scorecard-model.html#cb69-20" aria-hidden="true" tabindex="-1"></a>colini <span class="ot">&lt;-</span> (<span class="fu">ncol</span>(train)<span class="sc">-</span>nvar <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb69-21"><a href="build-final-scorecard-model.html#cb69-21" aria-hidden="true" tabindex="-1"></a>colend <span class="ot">&lt;-</span> <span class="fu">ncol</span>(train)</span>
+<span id="cb69-22"><a href="build-final-scorecard-model.html#cb69-22" aria-hidden="true" tabindex="-1"></a>train<span class="sc">$</span>Score <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(train[, colini<span class="sc">:</span>colend])</span>
+<span id="cb69-23"><a href="build-final-scorecard-model.html#cb69-23" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(train<span class="sc">$</span>Score, <span class="at">xlim=</span><span class="fu">range</span>(<span class="dv">400</span>,<span class="dv">600</span>), <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">main =</span> <span class="st">&quot;Distribution of Scores&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Score&quot;</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="build-final-scorecard-model.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> var_names) {</span>
+<span id="cb70-2"><a href="build-final-scorecard-model.html#cb70-2" aria-hidden="true" tabindex="-1"></a>  beta <span class="ot">&lt;-</span> final_score<span class="sc">$</span>coefficients[i]</span>
+<span id="cb70-3"><a href="build-final-scorecard-model.html#cb70-3" aria-hidden="true" tabindex="-1"></a>  beta0 <span class="ot">&lt;-</span> final_score<span class="sc">$</span>coefficients[<span class="st">&quot;(Intercept)&quot;</span>]</span>
+<span id="cb70-4"><a href="build-final-scorecard-model.html#cb70-4" aria-hidden="true" tabindex="-1"></a>  nvar <span class="ot">&lt;-</span> <span class="fu">length</span>(var_names)</span>
+<span id="cb70-5"><a href="build-final-scorecard-model.html#cb70-5" aria-hidden="true" tabindex="-1"></a>  WOE_var <span class="ot">&lt;-</span> test[[i]]</span>
+<span id="cb70-6"><a href="build-final-scorecard-model.html#cb70-6" aria-hidden="true" tabindex="-1"></a>  points_name <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">str_sub</span>(i, <span class="at">end =</span> <span class="sc">-</span><span class="dv">4</span>), <span class="st">&quot;points&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb70-7"><a href="build-final-scorecard-model.html#cb70-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb70-8"><a href="build-final-scorecard-model.html#cb70-8" aria-hidden="true" tabindex="-1"></a>  test[[points_name]] <span class="ot">&lt;-</span> <span class="sc">-</span>(WOE_var<span class="sc">*</span>(beta) <span class="sc">+</span> (beta0<span class="sc">/</span>nvar))<span class="sc">*</span>fact <span class="sc">+</span> os<span class="sc">/</span>nvar</span>
+<span id="cb70-9"><a href="build-final-scorecard-model.html#cb70-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb70-10"><a href="build-final-scorecard-model.html#cb70-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-11"><a href="build-final-scorecard-model.html#cb70-11" aria-hidden="true" tabindex="-1"></a>colini <span class="ot">&lt;-</span> (<span class="fu">ncol</span>(test)<span class="sc">-</span>nvar <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb70-12"><a href="build-final-scorecard-model.html#cb70-12" aria-hidden="true" tabindex="-1"></a>colend <span class="ot">&lt;-</span> <span class="fu">ncol</span>(test)</span>
+<span id="cb70-13"><a href="build-final-scorecard-model.html#cb70-13" aria-hidden="true" tabindex="-1"></a>test<span class="sc">$</span>Score <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(test[, colini<span class="sc">:</span>colend])</span>
+<span id="cb70-14"><a href="build-final-scorecard-model.html#cb70-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-15"><a href="build-final-scorecard-model.html#cb70-15" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(test<span class="sc">$</span>Score, <span class="at">xlim=</span><span class="fu">range</span>(<span class="dv">400</span>,<span class="dv">600</span>), <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">main =</span> <span class="st">&quot;Distribution of Test Scores&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Score&quot;</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-26-2.png" width="672" /></p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="build-final-scorecard-model.html#cb71-1" aria-hidden="true" tabindex="-1"></a>accepts_scored_comb <span class="ot">&lt;-</span> <span class="fu">rbind</span>(train[,<span class="fu">names</span>(test)], test)</span>
+<span id="cb71-2"><a href="build-final-scorecard-model.html#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(accepts_scored_comb<span class="sc">$</span>Score,<span class="at">xlim=</span><span class="fu">range</span>(<span class="dv">400</span>,<span class="dv">600</span>), <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">main =</span> <span class="st">&quot;Distribution of Scores&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Score&quot;</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-26-3.png" width="672" /></p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="build-final-scorecard-model.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="do">################# Score Card ###################</span></span>
+<span id="cb72-2"><a href="build-final-scorecard-model.html#cb72-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-3"><a href="build-final-scorecard-model.html#cb72-3" aria-hidden="true" tabindex="-1"></a>PERS_H_Score<span class="ot">=</span><span class="fu">unique</span>(train[,<span class="fu">c</span>(<span class="st">&quot;PERS_H&quot;</span>,<span class="st">&quot;woe_PERpoints&quot;</span>)])</span>
+<span id="cb72-4"><a href="build-final-scorecard-model.html#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(PERS_H_Score)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;PERS_H&quot;</span>,<span class="st">&quot;Point&quot;</span>)</span>
+<span id="cb72-5"><a href="build-final-scorecard-model.html#cb72-5" aria-hidden="true" tabindex="-1"></a>CARDS_Score<span class="ot">=</span><span class="fu">unique</span>(train[,<span class="fu">c</span>(<span class="st">&quot;CARDS&quot;</span>,<span class="st">&quot;woe_CApoints&quot;</span>)])</span>
+<span id="cb72-6"><a href="build-final-scorecard-model.html#cb72-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(CARDS_Score)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;CARDS&quot;</span>,<span class="st">&quot;Point&quot;</span>)</span>
+<span id="cb72-7"><a href="build-final-scorecard-model.html#cb72-7" aria-hidden="true" tabindex="-1"></a>TMJOB1_Score<span class="ot">=</span><span class="fu">unique</span>(train[,<span class="fu">c</span>(<span class="st">&quot;TMJOB1_bin&quot;</span>,<span class="st">&quot;TMJOB1_points&quot;</span>)])</span>
+<span id="cb72-8"><a href="build-final-scorecard-model.html#cb72-8" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(TMJOB1_Score)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;TMJOB1&quot;</span>,<span class="st">&quot;Point&quot;</span>)</span>
+<span id="cb72-9"><a href="build-final-scorecard-model.html#cb72-9" aria-hidden="true" tabindex="-1"></a><span class="do">################# Score Card ###################</span></span></code></pre></div>
+<div class="figure">
+<img src="ScoreCardFinal.png" alt="" />
+<p class="caption">Scorecard</p>
+</div>
+</div>
+<div id="score-distribution" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Score distribution</h2>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="build-final-scorecard-model.html#cb73-1" aria-hidden="true" tabindex="-1"></a>cutpoints <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">quantile</span>(accepts_scored_comb<span class="sc">$</span>Score, <span class="at">probs =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fl">0.1</span>),<span class="at">na.rm=</span><span class="cn">TRUE</span>))</span>
+<span id="cb73-2"><a href="build-final-scorecard-model.html#cb73-2" aria-hidden="true" tabindex="-1"></a>accepts_scored_comb<span class="sc">$</span>Score.QBin <span class="ot">&lt;-</span> <span class="fu">cut</span>(accepts_scored_comb<span class="sc">$</span>Score, <span class="at">breaks=</span>cutpoints, <span class="at">include.lowest=</span><span class="cn">TRUE</span>)</span>
+<span id="cb73-3"><a href="build-final-scorecard-model.html#cb73-3" aria-hidden="true" tabindex="-1"></a>Default.QBin.pop <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">table</span>(accepts_scored_comb<span class="sc">$</span>Score.QBin, accepts_scored_comb<span class="sc">$</span>GB)[,<span class="dv">2</span>]<span class="sc">/</span>(<span class="fu">table</span>(accepts_scored_comb<span class="sc">$</span>Score.QBin, accepts_scored_comb<span class="sc">$</span>GB)[,<span class="dv">2</span>] <span class="sc">+</span> <span class="fu">table</span>(accepts_scored_comb<span class="sc">$</span>Score.QBin, accepts_scored_comb<span class="sc">$</span>GB)[,<span class="dv">1</span>]<span class="sc">*</span>weight_ag)<span class="sc">*</span><span class="dv">100</span>,<span class="dv">2</span>)</span>
+<span id="cb73-4"><a href="build-final-scorecard-model.html#cb73-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-5"><a href="build-final-scorecard-model.html#cb73-5" aria-hidden="true" tabindex="-1"></a><span class="co">#print(Default.QBin.pop)</span></span>
+<span id="cb73-6"><a href="build-final-scorecard-model.html#cb73-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-7"><a href="build-final-scorecard-model.html#cb73-7" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(Default.QBin.pop, </span>
+<span id="cb73-8"><a href="build-final-scorecard-model.html#cb73-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Default Decile Plot&quot;</span>, </span>
+<span id="cb73-9"><a href="build-final-scorecard-model.html#cb73-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Deciles of Scorecard&quot;</span>,</span>
+<span id="cb73-10"><a href="build-final-scorecard-model.html#cb73-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;Default Rate (%)&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">20</span>),</span>
+<span id="cb73-11"><a href="build-final-scorecard-model.html#cb73-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">saturation</span>(heat.colors, <span class="fu">scalefac</span>(<span class="fl">0.8</span>))(<span class="dv">10</span>))</span>
+<span id="cb73-12"><a href="build-final-scorecard-model.html#cb73-12" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">3.23</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="st">&quot;dashed&quot;</span>)</span>
+<span id="cb73-13"><a href="build-final-scorecard-model.html#cb73-13" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">9</span>, <span class="fl">4.3</span>, <span class="st">&quot;Current = 3.23%&quot;</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+</div>
+<div id="plotting-default-acceptance-profit-by-score" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Plotting Default, Acceptance, &amp; Profit By Score</h2>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="build-final-scorecard-model.html#cb74-1" aria-hidden="true" tabindex="-1"></a>def <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb74-2"><a href="build-final-scorecard-model.html#cb74-2" aria-hidden="true" tabindex="-1"></a>acc <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb74-3"><a href="build-final-scorecard-model.html#cb74-3" aria-hidden="true" tabindex="-1"></a>prof <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb74-4"><a href="build-final-scorecard-model.html#cb74-4" aria-hidden="true" tabindex="-1"></a>score <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb74-5"><a href="build-final-scorecard-model.html#cb74-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-6"><a href="build-final-scorecard-model.html#cb74-6" aria-hidden="true" tabindex="-1"></a>cost <span class="ot">&lt;-</span> <span class="dv">52000</span></span>
+<span id="cb74-7"><a href="build-final-scorecard-model.html#cb74-7" aria-hidden="true" tabindex="-1"></a>profit <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb74-8"><a href="build-final-scorecard-model.html#cb74-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">min</span>(<span class="fu">floor</span>(train<span class="sc">$</span>Score))<span class="sc">:</span><span class="fu">max</span>(<span class="fu">floor</span>(train<span class="sc">$</span>Score))){</span>
+<span id="cb74-9"><a href="build-final-scorecard-model.html#cb74-9" aria-hidden="true" tabindex="-1"></a>  score[i <span class="sc">-</span> <span class="fu">min</span>(<span class="fu">floor</span>(train<span class="sc">$</span>Score)) <span class="sc">+</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> i</span>
+<span id="cb74-10"><a href="build-final-scorecard-model.html#cb74-10" aria-hidden="true" tabindex="-1"></a>  def[i <span class="sc">-</span> <span class="fu">min</span>(<span class="fu">floor</span>(train<span class="sc">$</span>Score)) <span class="sc">+</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">100</span><span class="sc">*</span><span class="fu">sum</span>(train<span class="sc">$</span>GB[<span class="fu">which</span>(train<span class="sc">$</span>Score <span class="sc">&gt;=</span> i)])<span class="sc">/</span>(<span class="fu">length</span>(train<span class="sc">$</span>GB[<span class="fu">which</span>(train<span class="sc">$</span>Score <span class="sc">&gt;=</span> i <span class="sc">&amp;</span> train<span class="sc">$</span>GB <span class="sc">==</span> <span class="dv">1</span>)]) <span class="sc">+</span> weight_ag<span class="sc">*</span><span class="fu">length</span>(train<span class="sc">$</span>GB[<span class="fu">which</span>(train<span class="sc">$</span>Score <span class="sc">&gt;=</span> i <span class="sc">&amp;</span> train<span class="sc">$</span>GB <span class="sc">==</span> <span class="dv">0</span>)]))</span>
+<span id="cb74-11"><a href="build-final-scorecard-model.html#cb74-11" aria-hidden="true" tabindex="-1"></a>  acc[i <span class="sc">-</span> <span class="fu">min</span>(<span class="fu">floor</span>(train<span class="sc">$</span>Score)) <span class="sc">+</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">100</span><span class="sc">*</span>(<span class="fu">length</span>(train<span class="sc">$</span>GB[<span class="fu">which</span>(train<span class="sc">$</span>Score <span class="sc">&gt;=</span> i <span class="sc">&amp;</span> train<span class="sc">$</span>GB <span class="sc">==</span> <span class="dv">1</span>)]) <span class="sc">+</span> weight_ag<span class="sc">*</span><span class="fu">length</span>(train<span class="sc">$</span>GB[<span class="fu">which</span>(train<span class="sc">$</span>Score <span class="sc">&gt;=</span> i <span class="sc">&amp;</span> train<span class="sc">$</span>GB <span class="sc">==</span> <span class="dv">0</span>)]))<span class="sc">/</span>(<span class="fu">length</span>(train<span class="sc">$</span>GB[<span class="fu">which</span>(train<span class="sc">$</span>GB <span class="sc">==</span> <span class="dv">1</span>)]) <span class="sc">+</span> weight_ag<span class="sc">*</span><span class="fu">length</span>(train<span class="sc">$</span>GB[<span class="fu">which</span>(train<span class="sc">$</span>GB <span class="sc">==</span> <span class="dv">0</span>)]))</span>
+<span id="cb74-12"><a href="build-final-scorecard-model.html#cb74-12" aria-hidden="true" tabindex="-1"></a>  prof[i <span class="sc">-</span> <span class="fu">min</span>(<span class="fu">floor</span>(train<span class="sc">$</span>Score)) <span class="sc">+</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">length</span>(train<span class="sc">$</span>GB[<span class="fu">which</span>(train<span class="sc">$</span>Score <span class="sc">&gt;=</span> i <span class="sc">&amp;</span> train<span class="sc">$</span>GB <span class="sc">==</span> <span class="dv">1</span>)])<span class="sc">*</span>(<span class="sc">-</span>cost) <span class="sc">+</span> weight_ag<span class="sc">*</span><span class="fu">length</span>(train<span class="sc">$</span>GB[<span class="fu">which</span>(train<span class="sc">$</span>Score <span class="sc">&gt;=</span> i <span class="sc">&amp;</span> train<span class="sc">$</span>GB <span class="sc">==</span> <span class="dv">0</span>)])<span class="sc">*</span>profit</span>
+<span id="cb74-13"><a href="build-final-scorecard-model.html#cb74-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb74-14"><a href="build-final-scorecard-model.html#cb74-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-15"><a href="build-final-scorecard-model.html#cb74-15" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(def, acc, prof, score)</span>
+<span id="cb74-16"><a href="build-final-scorecard-model.html#cb74-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-17"><a href="build-final-scorecard-model.html#cb74-17" aria-hidden="true" tabindex="-1"></a>def_plot <span class="ot">&lt;-</span> <span class="fu">xyplot</span>(def <span class="sc">~</span> score, plot_data, </span>
+<span id="cb74-18"><a href="build-final-scorecard-model.html#cb74-18" aria-hidden="true" tabindex="-1"></a>                   <span class="at">type =</span> <span class="st">&quot;l&quot;</span> , <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>,</span>
+<span id="cb74-19"><a href="build-final-scorecard-model.html#cb74-19" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ylab =</span> <span class="st">&quot;Default Rate (%)&quot;</span>,</span>
+<span id="cb74-20"><a href="build-final-scorecard-model.html#cb74-20" aria-hidden="true" tabindex="-1"></a>                   <span class="at">xlab =</span> <span class="st">&quot;Score&quot;</span>,</span>
+<span id="cb74-21"><a href="build-final-scorecard-model.html#cb74-21" aria-hidden="true" tabindex="-1"></a>                   <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">400</span><span class="sc">:</span><span class="dv">600</span>),</span>
+<span id="cb74-22"><a href="build-final-scorecard-model.html#cb74-22" aria-hidden="true" tabindex="-1"></a>                   <span class="at">main =</span> <span class="st">&quot;Default Rate by Acceptance Across Score&quot;</span>,</span>
+<span id="cb74-23"><a href="build-final-scorecard-model.html#cb74-23" aria-hidden="true" tabindex="-1"></a>                   <span class="at">panel =</span> <span class="cf">function</span>(x, y,...) {</span>
+<span id="cb74-24"><a href="build-final-scorecard-model.html#cb74-24" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">panel.xyplot</span>(x, y, ...)</span>
+<span id="cb74-25"><a href="build-final-scorecard-model.html#cb74-25" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">panel.abline</span>(<span class="at">h =</span> <span class="fl">3.23</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb74-26"><a href="build-final-scorecard-model.html#cb74-26" aria-hidden="true" tabindex="-1"></a>                   })</span>
+<span id="cb74-27"><a href="build-final-scorecard-model.html#cb74-27" aria-hidden="true" tabindex="-1"></a>acc_plot <span class="ot">&lt;-</span> <span class="fu">xyplot</span>(acc <span class="sc">~</span> score, plot_data, </span>
+<span id="cb74-28"><a href="build-final-scorecard-model.html#cb74-28" aria-hidden="true" tabindex="-1"></a>                   <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb74-29"><a href="build-final-scorecard-model.html#cb74-29" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ylab =</span> <span class="st">&quot;Acceptance Rate (%)&quot;</span>,</span>
+<span id="cb74-30"><a href="build-final-scorecard-model.html#cb74-30" aria-hidden="true" tabindex="-1"></a>                   <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">400</span><span class="sc">:</span><span class="dv">600</span>),</span>
+<span id="cb74-31"><a href="build-final-scorecard-model.html#cb74-31" aria-hidden="true" tabindex="-1"></a>                   <span class="at">panel =</span> <span class="cf">function</span>(x, y,...) {</span>
+<span id="cb74-32"><a href="build-final-scorecard-model.html#cb74-32" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">panel.xyplot</span>(x, y, ...)</span>
+<span id="cb74-33"><a href="build-final-scorecard-model.html#cb74-33" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">panel.abline</span>(<span class="at">h =</span> <span class="dv">75</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb74-34"><a href="build-final-scorecard-model.html#cb74-34" aria-hidden="true" tabindex="-1"></a>                   })</span>
+<span id="cb74-35"><a href="build-final-scorecard-model.html#cb74-35" aria-hidden="true" tabindex="-1"></a>prof_plot <span class="ot">&lt;-</span> <span class="fu">xyplot</span>(prof<span class="sc">/</span><span class="dv">1000</span> <span class="sc">~</span> score, plot_data, </span>
+<span id="cb74-36"><a href="build-final-scorecard-model.html#cb74-36" aria-hidden="true" tabindex="-1"></a>                    <span class="at">type =</span> <span class="st">&quot;l&quot;</span> , <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">&quot;green&quot;</span>,</span>
+<span id="cb74-37"><a href="build-final-scorecard-model.html#cb74-37" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ylab =</span> <span class="st">&quot;Profit (Thousands $)&quot;</span>,</span>
+<span id="cb74-38"><a href="build-final-scorecard-model.html#cb74-38" aria-hidden="true" tabindex="-1"></a>                    <span class="at">xlab =</span> <span class="st">&quot;Score&quot;</span>,</span>
+<span id="cb74-39"><a href="build-final-scorecard-model.html#cb74-39" aria-hidden="true" tabindex="-1"></a>                    <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">400</span><span class="sc">:</span><span class="dv">600</span>),</span>
+<span id="cb74-40"><a href="build-final-scorecard-model.html#cb74-40" aria-hidden="true" tabindex="-1"></a>                    <span class="at">main =</span> <span class="st">&quot;Profit by Acceptance Across Score&quot;</span></span>
+<span id="cb74-41"><a href="build-final-scorecard-model.html#cb74-41" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb74-42"><a href="build-final-scorecard-model.html#cb74-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-43"><a href="build-final-scorecard-model.html#cb74-43" aria-hidden="true" tabindex="-1"></a><span class="fu">doubleYScale</span>(def_plot, acc_plot, <span class="at">add.ylab2 =</span> <span class="cn">TRUE</span>, <span class="at">use.style=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="build-final-scorecard-model.html#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">doubleYScale</span>(prof_plot, acc_plot, <span class="at">add.ylab2 =</span> <span class="cn">TRUE</span>, <span class="at">use.style=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-28-2.png" width="672" /></p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="build-final-scorecard-model.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(<span class="fu">lapply</span>(plot_data[<span class="fu">abs</span>(plot_data<span class="sc">$</span>acc<span class="dv">-75</span>)<span class="sc">&lt;=</span><span class="dv">4</span>,],mean))</span></code></pre></div>
+<pre><code>##         def      acc     prof score
+## 1 0.9197601 71.56439 69093825   478</code></pre>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="build-final-scorecard-model.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(plot_data[plot_data<span class="sc">$</span>score<span class="sc">==</span><span class="dv">472</span>,])</span></code></pre></div>
+<pre><code>##          def      acc     prof score
+## 233 1.327788 80.91123 66672232   472</code></pre>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="build-final-scorecard-model.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(<span class="fu">lapply</span>(plot_data[<span class="fu">abs</span>(plot_data<span class="sc">$</span>def<span class="fl">-3.32</span>)<span class="sc">&lt;=</span><span class="fl">0.03</span>,],mean))</span></code></pre></div>
+<pre><code>##   def acc prof score
+## 1 NaN NaN  NaN   NaN</code></pre>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="build-final-scorecard-model.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(plot_data[plot_data<span class="sc">$</span>score<span class="sc">==</span><span class="dv">441</span>,])</span></code></pre></div>
+<pre><code>##          def      acc     prof score
+## 202 2.221145 96.10569 49415842   441</code></pre>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="reject-inference.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="plot_ly.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Arctansin/Scorecard/edit/master/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/Arctansin/Scorecard/blob/master/index.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
