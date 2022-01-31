@@ -1,1 +1,1 @@
-Please refer to the [RBookdown](arctansin.github.io/scorecard/)
+Please refer to the [RBookdown](https://arctansin.github.io/Scorecard/)
